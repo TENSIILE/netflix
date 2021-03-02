@@ -1,0 +1,35 @@
+.search_options {
+  position: relative;
+  padding: 0.5em 10rem;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #333;
+
+  $self: 'search_options';
+
+  &__genre {
+    font-weight: 600;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+
+    .tabs_container__title {
+      color: #333;
+      text-transform: capitalize;
+    }
+
+    .tabs_container__item {
+      background: unset !important;
+      color: #333 !important;
+      font-weight: 600;
+
+      &--active {
+        color: var(--main-color) !important;
+      }
+    }
+  }
+}

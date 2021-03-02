@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --config jest.config.js",
     "start": "cross-env NODE_ENV=development webpack serve --mode development --open",
     "build": "cross-env NODE_ENV=production webpack --mode production"
   },
