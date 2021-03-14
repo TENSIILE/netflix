@@ -1,53 +1,32 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserWebpackPlugin = require('terser-webpack-plugin');
 
-const NODE_ENV = process.env.NODE_ENV === 'development';
-
-const production = () => {
-  const config = {
-    splitChunks: {
-      chunks: 'all',
-    },
-  };
-
-  if (!NODE_ENV) {
-    config.minimizer = [new TerserWebpackPlugin()];
-  }
-
-  return config;
-};
-
-const loaders = () => {
-  const loaders = ['babel-loader'];
-
-  if (NODE_ENV) {
-    loaders.push('eslint-loader');
-  }
-
-  return loaders;
-};
+const IS_DEV = process.env.NODE_ENV === 'development';
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: './index.js',
   target: 'web',
-  devtool: NODE_ENV && 'eval-source-map',
+  devtool: IS_DEV && 'eval-source-map',
   output: {
     path: path.join(__dirname, '/dist'),
     filename: '[name].[contenthash].js',
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.png', '.jpg', '.gif', '.css', '.scss', '.json'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  optimization: production(),
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   devServer: {
     port: '3000',
-    hot: NODE_ENV,
+    hot: IS_DEV,
     historyApiFallback: true,
     contentBase: path.join(__dirname, '/src'),
   },
@@ -56,7 +35,7 @@ module.exports = {
       {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
-        use: loaders(),
+        use: 'babel-loader',
       },
       {
         test: /\.css$/,
@@ -82,7 +61,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '/public/index.html'),
       minify: {
-        collapseWhitespace: !NODE_ENV,
+        collapseWhitespace: !IS_DEV,
       },
     }),
     new webpack.ProvidePlugin({
