@@ -2,12 +2,14 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import './Card.scss';
 
+const _classname = 'card';
+
 export const Card = ({id, title, poster, releaseYear, genres}) => (
   <Link to={`/film?id=${id}`}>
-    <div className="card">
-      <img className="card__preview" src={poster} alt="" />
-      <div className="card__content">
-        <div className="card__text">
+    <div className={_classname}>
+      <img className={`${_classname}__preview`} src={poster} alt="" />
+      <div className={`${_classname}__content`}>
+        <div className={`${_classname}__text`}>
           <p className="card__title">{title}</p>
           <small className="card__year_release">
             {new Date(releaseYear).getFullYear().toString()}
@@ -18,19 +20,3 @@ export const Card = ({id, title, poster, releaseYear, genres}) => (
     </div>
   </Link>
 );
-
-Card.Container = ({children}) => {
-  if (!children) {
-    return (
-      <div className="cards_container">
-        <p className="cards_container__not_found">No films found</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="cards_container">
-      <div className="cards_container__grid">{children}</div>
-    </div>
-  );
-};

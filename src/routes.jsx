@@ -3,7 +3,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import {IndexPage, NotFoundPage, MoviePage} from './pages';
 import {ErrorBoundary} from './components';
 
-export const useRoutes = () => (
+export const Routes = () => (
   <ErrorBoundary>
     <Switch>
       <Route path="/" exact>

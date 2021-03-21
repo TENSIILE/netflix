@@ -1,8 +1,10 @@
 import React from 'react';
 import './Footer.scss';
 
+const _classname = 'footer';
+
 export const Footer = () => (
-  <div className="footer">
-    <p className="footer__title">Netflixroulette</p>
+  <div className={_classname}>
+    <p className={`${_classname}__title`}>Netflixroulette</p>
   </div>
 );

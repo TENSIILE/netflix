@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Header, Card, SearchOptions, Footer} from '../../components';
+import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '../../components';
 import config from '../../config.json';
 
 export class MoviePage extends Component {
@@ -29,9 +29,9 @@ export class MoviePage extends Component {
   render() {
     return (
       <div className="certain_movie content">
-        <Header.Movie {...this.state.current_movie} />
-        <SearchOptions.Movie genres={this.state.current_movie.genres} />
-        <Card.Container>
+        <HeaderMovie {...this.state.current_movie} />
+        <SearchOptionsMovie genres={this.state.current_movie.genres} />
+        <CardContainer>
           {this.state.similar_movies_by_genre.length &&
             this.state.similar_movies_by_genre.map(movie => (
               <Card
@@ -43,7 +43,7 @@ export class MoviePage extends Component {
                 genres={movie.genres}
               />
             ))}
-        </Card.Container>
+        </CardContainer>
         <Footer />
       </div>
     );

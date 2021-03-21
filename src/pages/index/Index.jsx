@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Header, SearchOptions, Card, Footer} from '../../components';
+import {Header, SearchOptions, Card, CardContainer, Footer} from '../../components';
 import config from '../../config.json';
 import './Index.scss';
 
@@ -104,7 +104,7 @@ export class IndexPage extends Component {
           sortTabs={this.state.sortTabs}
           onSelect={this.onToggleTabsSearchHandler}
         />
-        <Card.Container>
+        <CardContainer>
           {this.state.movies.length &&
             this.state.movies.map(movie => (
               <Card
@@ -116,7 +116,7 @@ export class IndexPage extends Component {
                 genres={movie.genres}
               />
             ))}
-        </Card.Container>
+        </CardContainer>
         <Footer />
       </div>
     );
