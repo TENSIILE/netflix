@@ -1,8 +1,7 @@
 import React from 'react';
 import {Input, Tabs, TabsContainer, Button} from '../../components';
+import {headerClassName} from './HeaderClassName';
 import './Header.scss';
-
-export const _classname = 'header';
 
 export const Header = ({
   input,
@@ -12,14 +11,15 @@ export const Header = ({
   onSearchMovies,
   onKeyPressEnterHandler,
 }) => (
-  <div className={_classname}>
-    <div className={`${_classname}__nav`}>
-      <h3 className="header__title">Netflixroulette</h3>
+  <div className={headerClassName}>
+    <div className={`${headerClassName}__nav`}>
+      <h3 className={`${headerClassName}__title`}>Netflixroulette</h3>
     </div>
-    <div className={`${_classname}__body`}>
-      <div className="input">
+    <div className={`${headerClassName}__body`}>
+      <div className={`${headerClassName}__input`}>
         <h3>Find your movie</h3>
         <Input
+          className="input_field"
           placeholder="Enter movie title or genre"
           value={input}
           onChange={onChangeInput}
@@ -27,7 +27,7 @@ export const Header = ({
         />
       </div>
     </div>
-    <div className={`${_classname}__footer`}>
+    <div className={`${headerClassName}__footer`}>
       <TabsContainer>
         <Tabs tabs={tabs} onSelect={onToggleTabs} />
       </TabsContainer>

@@ -1,18 +1,17 @@
 import React from 'react';
 import classnames from 'classnames';
+import {tabsContainerClassName} from './TabsContainerClassName';
 import './Tabs.scss';
-
-export const _classname = 'tabs_container';
 
 export const Tabs = ({tabs = [], onSelect}) => {
   return (
-    <div className={`${_classname}__tab`}>
-      <ul className={`${_classname}__list`}>
+    <div className={`${tabsContainerClassName}__tab`}>
+      <ul className={`${tabsContainerClassName}__list`}>
         {tabs.length &&
           tabs.map(tab => (
             <li
-              className={classnames(`${_classname}__item`, {
-                [`${_classname}__item--active`]: tab.isSelect,
+              className={classnames(`${tabsContainerClassName}__item`, {
+                [`${tabsContainerClassName}__item--active`]: tab.isSelect,
               })}
               key={tab.id}
               name={tab.title}

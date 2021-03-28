@@ -13,8 +13,8 @@ export class IndexPage extends Component {
       {id: 1, title: 'genres', isSelect: false},
     ],
     sortTabs: [
-      {id: 0, title: 'release date', isSelect: true},
-      {id: 1, title: 'rating', isSelect: false},
+      {id: 0, title: 'release date', isSelect: false},
+      {id: 1, title: 'rating', isSelect: true},
     ],
   };
 
