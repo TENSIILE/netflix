@@ -6,7 +6,7 @@
   $self: tabs_container;
 
   &__title {
-    color: white;
+    color: #fff;
     text-transform: uppercase;
   }
 
@@ -22,14 +22,14 @@
       .#{$self}__item {
         padding: 0.5em 1em;
         text-transform: uppercase;
-        color: white;
+        color: #fff;
         background: var(--main-color);
         cursor: pointer;
         transition: 0.4s;
 
         &.#{$self}__item--active {
           background: #333;
-          color: whitesmoke;
+          color: #f5f5f5;
 
           &:hover {
             background: #333;
