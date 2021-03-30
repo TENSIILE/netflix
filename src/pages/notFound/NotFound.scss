@@ -1,0 +1,64 @@
+.not_found_page {
+  position: relative;
+  overflow: hidden;
+
+  $self: 'not_found_page';
+
+  &__header {
+    position: relative;
+  }
+
+  &__img {
+    width: 100%;
+    height: 300px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 0 10px var(--main-color);
+    transform: translate(-50%, -50%);
+  }
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    .#{$self}__icon {
+      position: relative;
+      width: max-content;
+
+      svg {
+        width: 350px;
+        height: 350px;
+        fill: var(--main-color);
+      }
+    }
+
+    a {
+      width: max-content;
+    }
+  }
+}

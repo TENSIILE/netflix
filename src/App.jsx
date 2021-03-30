@@ -1,8 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {BrowserRouter} from 'react-router-dom';
+import {Routes} from './Routes';
 import './index.scss';
 
-export class App extends Component {
-  render() {
-    return <h1>Hello World</h1>;
-  }
-}
+export const App = () => {
+  return (
+    <BrowserRouter>
+      <div className="container">
+        <Routes />
+      </div>
+    </BrowserRouter>
+  );
+};
