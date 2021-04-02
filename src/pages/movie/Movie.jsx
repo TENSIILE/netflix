@@ -3,10 +3,14 @@ import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '../.
 import config from '../../config.json';
 
 export class MoviePage extends Component {
-  state = {
-    current_movie: {},
-    similar_movies_by_genre: [],
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      current_movie: {},
+      similar_movies_by_genre: [],
+    };
+  }
 
   componentDidMount() {
     const url = new URLSearchParams(location.search);

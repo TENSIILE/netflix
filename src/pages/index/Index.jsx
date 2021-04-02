@@ -4,34 +4,47 @@ import config from '../../config.json';
 import './Index.scss';
 
 export class IndexPage extends Component {
-  state = {
-    input: '',
-    movies: [],
-    cache_movies: [],
-    tabs: [
-      {id: 0, title: 'title', isSelect: true},
-      {id: 1, title: 'genres', isSelect: false},
-    ],
-    sortTabs: [
-      {id: 0, title: 'release date', isSelect: false},
-      {id: 1, title: 'rating', isSelect: true},
-    ],
-  };
+  constructor(props) {
+    super(props);
 
-  onChangeInputHandler = e => {
+    this.state = {
+      input: '',
+      movies: [],
+      cache_movies: [],
+      tabs: [
+        {id: 0, title: 'title', isSelect: true},
+        {id: 1, title: 'genres', isSelect: false},
+      ],
+      sortTabs: [
+        {id: 0, title: 'release date', isSelect: false},
+        {id: 1, title: 'rating', isSelect: true},
+      ],
+    };
+
+    this.onChangeInputHandler = this.onChangeInputHandler.bind(this);
+    this.onFindActiveTab = this.onFindActiveTab.bind(this);
+    this.onChangeState = this.onChangeState.bind(this);
+    this.onSearchMoviesHandler = this.onSearchMoviesHandler.bind(this);
+    this.onKeyPressEnterHandler = this.onKeyPressEnterHandler.bind(this);
+    this.onToggleTabsSearchHandler = this.onToggleTabsSearchHandler.bind(this);
+  }
+
+  onChangeInputHandler(e) {
     this.onChangeState('input', e.target.value);
-  };
+  }
 
-  onFindActiveTab = (name = 'tabs') => this.state[name].find(tab => tab.isSelect).title;
+  onFindActiveTab(name = 'tabs') {
+    return this.state[name].find(tab => tab.isSelect).title;
+  }
 
-  onChangeState = (key, value) => {
+  onChangeState(key, value) {
     this.setState(prev => ({
       ...prev,
       [key]: value,
     }));
-  };
+  }
 
-  onSearchMoviesHandler = () => {
+  onSearchMoviesHandler() {
     if (!!this.state.input.trim()) {
       fetch(
         `${config.SERVER_API}/movies?search=${this.state.input}&searchBy=${this.onFindActiveTab()}`
@@ -46,15 +59,15 @@ export class IndexPage extends Component {
         this.onChangeState('movies', this.state.cache_movies);
       }
     }
-  };
+  }
 
-  onKeyPressEnterHandler = e => {
+  onKeyPressEnterHandler(e) {
     if (e.key === 'Enter') {
       this.onSearchMoviesHandler();
     }
-  };
+  }
 
-  onToggleTabsSearchHandler = (e, name = 'tabs') => {
+  onToggleTabsSearchHandler(e, name = 'tabs') {
     this.onChangeState(
       name,
       this.state[name].map(tab => {
@@ -64,7 +77,7 @@ export class IndexPage extends Component {
         return {...tab, isSelect: false};
       })
     );
-  };
+  }
 
   componentDidMount() {
     fetch(`${config.SERVER_API}/movies`)
