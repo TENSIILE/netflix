@@ -1,7 +1,7 @@
 import React from 'react';
 import {searchOptionsClassName} from './SearchOptionsClassName';
 
-export const SearchOptionsMovie = ({genres}) => (
+export const SearchOptionsMovie: React.FC<{genres: string[]}> = ({genres}) => (
   <div className={searchOptionsClassName}>
     <p className={`${searchOptionsClassName}__genre`}>
       Film by <span>{genres && genres.join(' & ')}</span>

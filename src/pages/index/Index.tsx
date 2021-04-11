@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '../../components';
+import {IIndexState} from '../../interfaces/pages';
+import {ITab} from '../../interfaces/components';
+import {Tabs} from '../../types';
+import {ensure} from '../../utils/helpers';
 import config from '../../config.json';
 import './Index.scss';
 
-export class IndexPage extends Component {
-  constructor(props) {
+export class IndexPage extends Component<any, IIndexState> {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -29,22 +33,22 @@ export class IndexPage extends Component {
     this.onToggleTabsSearchHandler = this.onToggleTabsSearchHandler.bind(this);
   }
 
-  onChangeInputHandler(e) {
+  onChangeInputHandler(e: React.ChangeEvent<HTMLInputElement>): void {
     this.onChangeState('input', e.target.value);
   }
 
-  onFindActiveTab(name = 'tabs') {
-    return this.state[name].find(tab => tab.isSelect).title;
+  onFindActiveTab(name: Tabs = 'tabs'): string {
+    return ensure(this.state[name].find((tab: ITab) => tab.isSelect)).title;
   }
 
-  onChangeState(key, value) {
+  onChangeState(key: keyof IIndexState, value: string | Array<any>): void {
     this.setState(prev => ({
       ...prev,
       [key]: value,
     }));
   }
 
-  onSearchMoviesHandler() {
+  onSearchMoviesHandler(): void {
     if (!!this.state.input.trim()) {
       fetch(
         `${config.SERVER_API}/movies?search=${this.state.input}&searchBy=${this.onFindActiveTab()}`
@@ -61,17 +65,17 @@ export class IndexPage extends Component {
     }
   }
 
-  onKeyPressEnterHandler(e) {
+  onKeyPressEnterHandler(e: React.KeyboardEvent): void {
     if (e.key === 'Enter') {
       this.onSearchMoviesHandler();
     }
   }
 
-  onToggleTabsSearchHandler(e, name = 'tabs') {
+  onToggleTabsSearchHandler(e: React.MouseEvent<HTMLLIElement>, name: Tabs = 'tabs'): void {
     this.onChangeState(
       name,
       this.state[name].map(tab => {
-        if (e.target.getAttribute('name') === tab.title) {
+        if (e.currentTarget.dataset.name === tab.title) {
           return {...tab, isSelect: true};
         }
         return {...tab, isSelect: false};
@@ -79,7 +83,7 @@ export class IndexPage extends Component {
     );
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     fetch(`${config.SERVER_API}/movies`)
       .then(res => res.json())
       .then(({data}) => {
@@ -87,21 +91,21 @@ export class IndexPage extends Component {
       });
   }
 
-  componentDidUpdate(_, prevState) {
+  componentDidUpdate(_: any, prevState: IIndexState): void {
     if (prevState.movies === this.state.movies && prevState.sortTabs !== this.state.sortTabs) {
-      let stateMovies = [...this.state.movies];
+      const stateMovies = [...this.state.movies];
 
       if (this.onFindActiveTab('sortTabs') === 'rating') {
-        stateMovies.sort((a, b) => b.vote_average - a.vote_average);
+        stateMovies.sort((a, b): number => b.vote_average - a.vote_average);
       } else {
-        stateMovies.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+        stateMovies.sort((a, b): number => +new Date(b.release_date) - +new Date(a.release_date));
       }
 
       this.onChangeState('movies', stateMovies);
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className="index_page">
         <Header
@@ -124,8 +128,8 @@ export class IndexPage extends Component {
                 key={movie.id}
                 id={movie.id}
                 title={movie.title}
-                poster={movie.poster_path}
-                releaseYear={movie.release_date}
+                poster_path={movie.poster_path}
+                release_date={movie.release_date}
                 genres={movie.genres}
               />
             ))}

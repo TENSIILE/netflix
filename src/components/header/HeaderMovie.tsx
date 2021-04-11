@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Button} from '../';
+import {Button} from '..';
 import {headerClassName} from './HeaderClassName';
+import {IMovie} from '../../interfaces/pages';
 
-export const HeaderMovie = ({
+export const HeaderMovie: React.FC<IMovie> = ({
   poster_path,
   release_date,
   tagline,

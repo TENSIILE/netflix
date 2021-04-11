@@ -6,20 +6,20 @@ import header_img from '../../static/img/netflix-header.jpg';
 import notFoundSvg from '../../static/icons/404.svg';
 import './NotFound.scss';
 
-const _classname = 'not_found_page';
+const notFoundPageClassName = 'not_found_page';
 
-export const NotFoundPage = () => (
-  <div className={_classname}>
-    <div className={`${_classname}__header`}>
-      <div className={`${_classname}__img`}>
+export const NotFoundPage: React.FC = () => (
+  <div className={notFoundPageClassName}>
+    <div className={`${notFoundPageClassName}__header`}>
+      <div className={`${notFoundPageClassName}__img`}>
         <img src={header_img} alt="" />
       </div>
-      <div className={`${_classname}__text`}>
+      <div className={`${notFoundPageClassName}__text`}>
         <h1>Простите, но такого адреса не существует!</h1>
       </div>
     </div>
-    <div className={`${_classname}__content`}>
-      <ReactSVG src={notFoundSvg} className={`${_classname}__icon`} />
+    <div className={`${notFoundPageClassName}__content`}>
+      <ReactSVG src={notFoundSvg} className={`${notFoundPageClassName}__icon`} />
       <Link to="/">
         <Button>Вернуться назад</Button>
       </Link>

@@ -6,7 +6,7 @@ const IS_DEV = process.env.NODE_ENV === 'development';
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  entry: './index.js',
+  entry: './index.tsx',
   target: 'web',
   devtool: IS_DEV && 'eval-source-map',
   output: {

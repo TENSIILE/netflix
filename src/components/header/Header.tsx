@@ -1,9 +1,10 @@
 import React from 'react';
-import {Input, Tabs, TabsContainer, Button} from '../../components';
+import {Input, Tabs, TabsContainer, Button} from '..';
+import {IHeaderProp} from '../../interfaces/components';
 import {headerClassName} from './HeaderClassName';
 import './Header.scss';
 
-export const Header = ({
+export const Header: React.FC<IHeaderProp> = ({
   input,
   tabs,
   onToggleTabs,

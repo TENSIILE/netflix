@@ -1,9 +1,10 @@
 import React from 'react';
-import {Tabs, TabsContainer} from '../';
+import {Tabs, TabsContainer} from '..';
 import {searchOptionsClassName} from './SearchOptionsClassName';
+import {ISearchOptionsProp} from '../../interfaces/components';
 import './SearchOptions.scss';
 
-export const SearchOptions = ({countMovies, sortTabs, onSelect}) => (
+export const SearchOptions: React.FC<ISearchOptionsProp> = ({countMovies, sortTabs, onSelect}) => (
   <div className={searchOptionsClassName}>
     <div className={`${searchOptionsClassName}__left`}>
       <p className={`${searchOptionsClassName}__count_of_movies_found`}>

@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
+import {IErrorBoundary} from '../../interfaces/components';
 
-export class ErrorBoundary extends Component {
-  constructor(props) {
+export class ErrorBoundary extends Component<any, IErrorBoundary> {
+  constructor(props: any) {
     super(props);
     this.state = {error: null, errorInfo: null};
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     this.setState({
-      error: error,
-      errorInfo: errorInfo,
+      error,
+      errorInfo,
     });
   }
 
-  render() {
+  render(): React.ReactNode {
     if (this.state.errorInfo) {
       return (
         <div>
