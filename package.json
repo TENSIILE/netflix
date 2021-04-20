@@ -7,14 +7,15 @@
     "test": "jest --config jest.config.js",
     "start": "webpack serve --mode development --open",
     "build": "webpack --mode production",
-    "lint": "eslint --debug src/ --max-warnings=0"
+    "lint": "eslint --debug src/ --max-warnings=0",
+    "typecheck": "tsc --noEmit --jsx react-jsx --esModuleInterop --resolveJsonModule"
   },
   "lint-staged": {
     "*.(js|jsx|ts|tsx)": [
       "npm run lint"
     ],
     "*.(ts|tsx)": [
-      "tsc --noEmit --jsx react-jsx --esModuleInterop --resolveJsonModule"
+      "npm run typecheck"
     ]
   },
   "author": "Laptev Vladislav <laptev-vlad2001@yandex.ru>",
