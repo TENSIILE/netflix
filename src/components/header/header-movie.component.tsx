@@ -1,10 +1,19 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from '..';
-import {headerClassName} from './HeaderClassName';
-import {IMovie} from '../../interfaces/pages';
+import {headerClassName} from './header-classname';
 
-export const HeaderMovie: React.FC<IMovie> = ({
+interface HeaderMovieProp {
+  poster_path?: string;
+  release_date?: Date;
+  tagline?: string;
+  title?: string;
+  vote_average?: number;
+  overview?: string;
+  runtime?: number;
+}
+
+export const HeaderMovie: React.FC<HeaderMovieProp> = ({
   poster_path,
   release_date,
   tagline,
@@ -22,7 +31,7 @@ export const HeaderMovie: React.FC<IMovie> = ({
     </div>
     <div className={`${headerClassName}__body ${headerClassName}__info_movie`}>
       <div className={`${headerClassName}__poster`}>
-        <img src={poster_path} alt="" />
+        {poster_path && <img src={poster_path} alt="" />}
       </div>
       <div className={`${headerClassName}__text_movie`}>
         <div className={`${headerClassName}__text_movie_head`}>

@@ -1,10 +1,19 @@
 import React from 'react';
 import {Input, Tabs, TabsContainer, Button} from '..';
-import {IHeaderProp} from '../../interfaces/components';
-import {headerClassName} from './HeaderClassName';
-import './Header.scss';
+import {Tab} from '../../types';
+import {headerClassName} from './header-classname';
+import './header.scss';
 
-export const Header: React.FC<IHeaderProp> = ({
+interface HeaderProp {
+  input: string;
+  tabs: Tab[];
+  onToggleTabs: (e: React.MouseEvent<HTMLLIElement>) => void;
+  onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchMovies: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onKeyPressEnterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+}
+
+export const Header: React.FC<HeaderProp> = ({
   input,
   tabs,
   onToggleTabs,

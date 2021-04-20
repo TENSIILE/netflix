@@ -1,12 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
-  entry: './index.tsx',
+  context: __dirname,
+  entry: './src/index.tsx',
   target: 'web',
   devtool: IS_DEV && 'eval-source-map',
   output: {
@@ -67,5 +68,6 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: 'react',
     }),
+    new ForkTsCheckerWebpackPlugin(),
   ],
 };

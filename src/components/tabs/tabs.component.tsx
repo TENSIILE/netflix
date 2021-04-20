@@ -1,10 +1,15 @@
 import React from 'react';
 import classnames from 'classnames';
-import {tabsContainerClassName} from './TabsContainerClassName';
-import {ITabProp} from '../../interfaces/components';
-import './Tabs.scss';
+import {tabsContainerClassName} from './tabs-container-classname';
+import {Tab} from '../../types';
+import './tabs.scss';
 
-export const Tabs: React.FC<ITabProp> = ({tabs = [], onSelect}) => {
+interface TabProp {
+  tabs: Tab[];
+  onSelect: (e: React.MouseEvent<HTMLLIElement>) => void;
+}
+
+export const Tabs: React.FC<TabProp> = ({tabs = [], onSelect}) => {
   return (
     <div className={`${tabsContainerClassName}__tab`}>
       <ul className={`${tabsContainerClassName}__list`}>

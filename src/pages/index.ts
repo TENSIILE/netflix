@@ -1,3 +1,3 @@
-export {IndexPage} from './index/Index';
-export {NotFoundPage} from './notFound/NotFound';
-export {MoviePage} from './movie/Movie';
+export {IndexPage} from './index/index.page';
+export {NotFoundPage} from './notFound/not-found.page';
+export {MoviePage} from './movie/movie.page';

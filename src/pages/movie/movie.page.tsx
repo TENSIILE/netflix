@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
 import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '../../components';
-import {IMovieState, IMovie} from '../../interfaces/pages';
+import {Movie} from '../../types/movie.type';
 import config from '../../config.json';
 
-export class MoviePage extends Component<any, IMovieState> {
-  constructor(props: any) {
+interface MovieState {
+  currentMovie: Movie | null;
+  similarMoviesByGenre: Movie[];
+}
+
+export class MoviePage extends Component<unknown, MovieState> {
+  constructor(props: unknown) {
     super(props);
 
     this.state = {
-      current_movie: {} as IMovie,
-      similar_movies_by_genre: [],
+      currentMovie: null,
+      similarMoviesByGenre: [],
     };
   }
 
@@ -19,16 +24,16 @@ export class MoviePage extends Component<any, IMovieState> {
 
     fetch(`${config.SERVER_API}/movies/${id}`)
       .then(res => res.json())
-      .then((res: IMovie) => {
-        this.setState(prev => ({...prev, current_movie: res}));
+      .then((res: Movie) => {
+        this.setState(prev => ({...prev, currentMovie: res}));
 
         fetch(`${config.SERVER_API}/movies?filter=${res.genres.join(',')}`)
           .then(res => res.json())
           .then(res => {
             const movies = res.data.filter(
-              (movie: IMovie) => movie.id.toString() !== id?.toString()
+              (movie: Movie) => movie.id.toString() !== id?.toString()
             );
-            this.setState(prev => ({...prev, similar_movies_by_genre: movies}));
+            this.setState(prev => ({...prev, similarMoviesByGenre: movies}));
           });
       });
   }
@@ -36,11 +41,11 @@ export class MoviePage extends Component<any, IMovieState> {
   render(): JSX.Element {
     return (
       <div className="certain_movie content">
-        <HeaderMovie {...this.state.current_movie} />
-        <SearchOptionsMovie genres={this.state.current_movie.genres} />
+        <HeaderMovie {...this.state.currentMovie} />
+        <SearchOptionsMovie genres={this.state.currentMovie?.genres || []} />
         <CardContainer>
-          {this.state.similar_movies_by_genre.length &&
-            this.state.similar_movies_by_genre.map(movie => (
+          {this.state.similarMoviesByGenre.length &&
+            this.state.similarMoviesByGenre.map(movie => (
               <Card
                 key={movie.id}
                 id={movie.id}

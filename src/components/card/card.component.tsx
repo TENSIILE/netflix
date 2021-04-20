@@ -1,17 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {ISimilarMovieProp} from '../../interfaces/pages';
-import './Card.scss';
+import './card.scss';
+
+interface CardProp {
+  id: number;
+  title: string;
+  poster_path: string;
+  release_date: Date;
+  genres: string[];
+}
 
 const cardClassName = 'card';
 
-export const Card: React.FC<ISimilarMovieProp> = ({
-  id,
-  title,
-  poster_path,
-  release_date,
-  genres,
-}) => (
+export const Card: React.FC<CardProp> = ({id, title, poster_path, release_date, genres}) => (
   <Link to={`/film?id=${id}`}>
     <div className={cardClassName}>
       <img className={`${cardClassName}__preview`} src={poster_path} alt="" />

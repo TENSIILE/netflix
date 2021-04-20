@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '../../components';
-import {IIndexState} from '../../interfaces/pages';
-import {ITab} from '../../interfaces/components';
-import {Tabs} from '../../types';
-import {ensure} from '../../utils/helpers';
+import {Movie} from '../../types/movie.type';
+import {Tab, TabsType} from '../../types';
+import {ensure} from '../../utils/helpers.util';
 import config from '../../config.json';
-import './Index.scss';
+import './index.scss';
 
-export class IndexPage extends Component<any, IIndexState> {
-  constructor(props: any) {
+interface IndexPageState {
+  input: string;
+  movies: Movie[];
+  cacheMovies: Movie[];
+  tabs: Tab[];
+  sortTabs: Tab[];
+}
+
+export class IndexPage extends Component<unknown, IndexPageState> {
+  constructor(props: unknown) {
     super(props);
 
     this.state = {
       input: '',
       movies: [],
-      cache_movies: [],
+      cacheMovies: [],
       tabs: [
         {id: 0, title: 'title', isSelect: true},
         {id: 1, title: 'genres', isSelect: false},
@@ -37,11 +44,11 @@ export class IndexPage extends Component<any, IIndexState> {
     this.onChangeState('input', e.target.value);
   }
 
-  onFindActiveTab(name: Tabs = 'tabs'): string {
-    return ensure(this.state[name].find((tab: ITab) => tab.isSelect)).title;
+  onFindActiveTab(name: TabsType = 'tabs'): string {
+    return ensure(this.state[name].find((tab: Tab) => tab.isSelect)).title;
   }
 
-  onChangeState(key: keyof IIndexState, value: string | Array<any>): void {
+  onChangeState(key: keyof IndexPageState, value: string | Array<Tab | Movie>): void {
     this.setState(prev => ({
       ...prev,
       [key]: value,
@@ -55,12 +62,12 @@ export class IndexPage extends Component<any, IIndexState> {
       )
         .then(res => res.json())
         .then(({data}) => {
-          this.onChangeState('cache_movies', this.state.movies);
+          this.onChangeState('cacheMovies', this.state.movies);
           this.onChangeState('movies', data);
         });
     } else {
-      if (this.state.cache_movies.length) {
-        this.onChangeState('movies', this.state.cache_movies);
+      if (this.state.cacheMovies.length) {
+        this.onChangeState('movies', this.state.cacheMovies);
       }
     }
   }
@@ -71,7 +78,7 @@ export class IndexPage extends Component<any, IIndexState> {
     }
   }
 
-  onToggleTabsSearchHandler(e: React.MouseEvent<HTMLLIElement>, name: Tabs = 'tabs'): void {
+  onToggleTabsSearchHandler(e: React.MouseEvent<HTMLLIElement>, name: TabsType = 'tabs'): void {
     this.onChangeState(
       name,
       this.state[name].map(tab => {
@@ -91,7 +98,7 @@ export class IndexPage extends Component<any, IIndexState> {
       });
   }
 
-  componentDidUpdate(_: any, prevState: IIndexState): void {
+  componentDidUpdate(_: unknown, prevState: IndexPageState): void {
     if (prevState.movies === this.state.movies && prevState.sortTabs !== this.state.sortTabs) {
       const stateMovies = [...this.state.movies];
 

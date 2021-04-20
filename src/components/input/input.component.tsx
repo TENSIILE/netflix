@@ -1,5 +1,5 @@
 import React from 'react';
-import './Input.scss';
+import './input.scss';
 
 export const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = props => (
   <input type="text" {...props} />

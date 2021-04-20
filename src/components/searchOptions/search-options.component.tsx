@@ -1,10 +1,16 @@
 import React from 'react';
 import {Tabs, TabsContainer} from '..';
-import {searchOptionsClassName} from './SearchOptionsClassName';
-import {ISearchOptionsProp} from '../../interfaces/components';
-import './SearchOptions.scss';
+import {searchOptionsClassName} from './search-options-classname';
+import {TabsType, Tab} from '../../types';
+import './search-options.scss';
 
-export const SearchOptions: React.FC<ISearchOptionsProp> = ({countMovies, sortTabs, onSelect}) => (
+interface SearchOptionsProp {
+  countMovies: number;
+  sortTabs: Tab[];
+  onSelect: (e: React.MouseEvent<HTMLLIElement>, name: TabsType) => void;
+}
+
+export const SearchOptions: React.FC<SearchOptionsProp> = ({countMovies, sortTabs, onSelect}) => (
   <div className={searchOptionsClassName}>
     <div className={`${searchOptionsClassName}__left`}>
       <p className={`${searchOptionsClassName}__count_of_movies_found`}>
