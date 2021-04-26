@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Header, SearchOptions, Card, CardContainer, Footer} from '../../components';
-import {Movie} from '../../types/movie.type';
-import {Tab, TabsType} from '../../types';
-import {ensure} from '../../utils/helpers.util';
-import config from '../../config.json';
+import {Header, SearchOptions, Card, CardContainer, Footer} from '@/components';
+import {Movie} from '@/types/movie.type';
+import {Tab, TabsType} from '@/types';
+import {ensure, renamePropsObj} from '@/utils/helpers.util';
+import config from '@/config.json';
 import './index.scss';
 
 interface IndexPageState {
@@ -62,6 +62,7 @@ export class IndexPage extends Component<unknown, IndexPageState> {
       )
         .then(res => res.json())
         .then(({data}) => {
+          renamePropsObj(data);
           this.onChangeState('cacheMovies', this.state.movies);
           this.onChangeState('movies', data);
         });
@@ -94,6 +95,7 @@ export class IndexPage extends Component<unknown, IndexPageState> {
     fetch(`${config.SERVER_API}/movies`)
       .then(res => res.json())
       .then(({data}) => {
+        renamePropsObj(data);
         this.onChangeState('movies', data);
       });
   }
@@ -103,9 +105,9 @@ export class IndexPage extends Component<unknown, IndexPageState> {
       const stateMovies = [...this.state.movies];
 
       if (this.onFindActiveTab('sortTabs') === 'rating') {
-        stateMovies.sort((a, b): number => b.vote_average - a.vote_average);
+        stateMovies.sort((a, b): number => b.voteAverage - a.voteAverage);
       } else {
-        stateMovies.sort((a, b): number => +new Date(b.release_date) - +new Date(a.release_date));
+        stateMovies.sort((a, b): number => +new Date(b.releaseDate) - +new Date(a.releaseDate));
       }
 
       this.onChangeState('movies', stateMovies);
@@ -135,8 +137,8 @@ export class IndexPage extends Component<unknown, IndexPageState> {
                 key={movie.id}
                 id={movie.id}
                 title={movie.title}
-                poster_path={movie.poster_path}
-                release_date={movie.release_date}
+                posterPath={movie.posterPath}
+                releaseDate={movie.releaseDate}
                 genres={movie.genres}
               />
             ))}

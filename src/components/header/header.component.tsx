@@ -1,6 +1,6 @@
 import React from 'react';
-import {Input, Tabs, TabsContainer, Button} from '..';
-import {Tab} from '../../types';
+import {Input, Tabs, TabsContainer, Button} from '@/components';
+import {Tab} from '@/types';
 import {headerClassName} from './header-classname';
 import './header.scss';
 

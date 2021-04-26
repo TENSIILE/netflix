@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
+import {Tab} from '@/types';
 import {tabsContainerClassName} from './tabs-container-classname';
-import {Tab} from '../../types';
 import './tabs.scss';
 
 interface TabProp {

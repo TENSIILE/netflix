@@ -5,22 +5,22 @@ import './card.scss';
 interface CardProp {
   id: number;
   title: string;
-  poster_path: string;
-  release_date: Date;
+  posterPath: string;
+  releaseDate: Date;
   genres: string[];
 }
 
 const cardClassName = 'card';
 
-export const Card: React.FC<CardProp> = ({id, title, poster_path, release_date, genres}) => (
+export const Card: React.FC<CardProp> = ({id, title, posterPath, releaseDate, genres}) => (
   <Link to={`/film?id=${id}`}>
     <div className={cardClassName}>
-      <img className={`${cardClassName}__preview`} src={poster_path} alt="" />
+      <img className={`${cardClassName}__preview`} src={posterPath} alt="" />
       <div className={`${cardClassName}__content`}>
         <div className={`${cardClassName}__text`}>
           <p className={`${cardClassName}__title`}>{title}</p>
           <small className={`${cardClassName}__year_release`}>
-            {new Date(release_date).getFullYear().toString()}
+            {new Date(releaseDate).getFullYear().toString()}
           </small>
         </div>
         <span className={`${cardClassName}__genre`}>{genres.join(' & ')}</span>

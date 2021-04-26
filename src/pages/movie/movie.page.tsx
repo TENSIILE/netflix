@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '../../components';
-import {Movie} from '../../types/movie.type';
-import config from '../../config.json';
+import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '@/components';
+import {Movie} from '@/types/movie.type';
+import {renamePropsObj} from '@/utils/helpers.util';
+import config from '@/config.json';
 
 interface MovieState {
   currentMovie: Movie | null;
@@ -24,12 +25,14 @@ export class MoviePage extends Component<unknown, MovieState> {
 
     fetch(`${config.SERVER_API}/movies/${id}`)
       .then(res => res.json())
-      .then((res: Movie) => {
+      .then(res => {
+        renamePropsObj(res);
         this.setState(prev => ({...prev, currentMovie: res}));
 
         fetch(`${config.SERVER_API}/movies?filter=${res.genres.join(',')}`)
           .then(res => res.json())
           .then(res => {
+            renamePropsObj(res.data);
             const movies = res.data.filter(
               (movie: Movie) => movie.id.toString() !== id?.toString()
             );
@@ -50,8 +53,8 @@ export class MoviePage extends Component<unknown, MovieState> {
                 key={movie.id}
                 id={movie.id}
                 title={movie.title}
-                poster_path={movie.poster_path}
-                release_date={movie.release_date}
+                posterPath={movie.posterPath}
+                releaseDate={movie.releaseDate}
                 genres={movie.genres}
               />
             ))}

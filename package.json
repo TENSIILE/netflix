@@ -8,7 +8,7 @@
     "start": "webpack serve --mode development --open",
     "build": "webpack --mode production",
     "lint": "eslint --debug src/ --max-warnings=0",
-    "typecheck": "tsc --noEmit --jsx react-jsx --esModuleInterop --resolveJsonModule"
+    "typecheck": "bash -c tsc --noEmit"
   },
   "lint-staged": {
     "*.(js|jsx|ts|tsx)": [

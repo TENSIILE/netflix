@@ -1,7 +1,7 @@
 import React from 'react';
-import {Tabs, TabsContainer} from '..';
+import {Tabs, TabsContainer} from '@/components';
+import {TabsType, Tab} from '@/types';
 import {searchOptionsClassName} from './search-options-classname';
-import {TabsType, Tab} from '../../types';
 import './search-options.scss';
 
 interface SearchOptionsProp {
