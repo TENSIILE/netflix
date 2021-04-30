@@ -1,9 +1,15 @@
 import React from 'react';
 import classnames from 'classnames';
-import {tabsContainerClassName} from './TabsContainerClassName';
-import './Tabs.scss';
+import {Tab} from '@/types';
+import {tabsContainerClassName} from './tabs-container-classname';
+import './tabs.scss';
 
-export const Tabs = ({tabs = [], onSelect}) => {
+interface TabProp {
+  tabs: Tab[];
+  onSelect: (e: React.MouseEvent<HTMLLIElement>) => void;
+}
+
+export const Tabs: React.FC<TabProp> = ({tabs = [], onSelect}) => {
   return (
     <div className={`${tabsContainerClassName}__tab`}>
       <ul className={`${tabsContainerClassName}__list`}>
@@ -14,7 +20,7 @@ export const Tabs = ({tabs = [], onSelect}) => {
                 [`${tabsContainerClassName}__item--active`]: tab.isSelect,
               })}
               key={tab.id}
-              name={tab.title}
+              data-name={tab.title}
               onClick={onSelect}
             >
               {tab.title}

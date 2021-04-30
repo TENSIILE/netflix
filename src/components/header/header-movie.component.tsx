@@ -1,14 +1,24 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Button} from '../';
-import {headerClassName} from './HeaderClassName';
+import {Button} from '@/components';
+import {headerClassName} from './header-classname';
 
-export const HeaderMovie = ({
-  poster_path,
-  release_date,
+interface HeaderMovieProp {
+  posterPath?: string;
+  releaseDate?: Date;
+  tagline?: string;
+  title?: string;
+  voteAverage?: number;
+  overview?: string;
+  runtime?: number;
+}
+
+export const HeaderMovie: React.FC<HeaderMovieProp> = ({
+  posterPath,
+  releaseDate,
   tagline,
   title,
-  vote_average,
+  voteAverage,
   overview,
   runtime,
 }) => (
@@ -21,19 +31,19 @@ export const HeaderMovie = ({
     </div>
     <div className={`${headerClassName}__body ${headerClassName}__info_movie`}>
       <div className={`${headerClassName}__poster`}>
-        <img src={poster_path} alt="" />
+        {posterPath && <img src={posterPath} alt="" />}
       </div>
       <div className={`${headerClassName}__text_movie`}>
         <div className={`${headerClassName}__text_movie_head`}>
           <h3 className={`${headerClassName}__title_movie`}>{title}</h3>
-          {!!vote_average && (
-            <span className={`${headerClassName}__rating_movie`}>{vote_average}</span>
+          {!!voteAverage && (
+            <span className={`${headerClassName}__rating_movie`}>{voteAverage}</span>
           )}
         </div>
         <small>{tagline}</small>
         <div className={`${headerClassName}__duration_release_movie`}>
           <span className={`${headerClassName}__release_movie`}>
-            {release_date && new Date(release_date).getFullYear().toString()}
+            {releaseDate && new Date(releaseDate).getFullYear().toString()}
           </span>
           {runtime && <span className={`${headerClassName}__duration_movie`}>{runtime} min</span>}
         </div>

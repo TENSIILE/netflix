@@ -2,7 +2,7 @@ import React from 'react';
 
 const cardsContainerClassName = 'cards_container';
 
-export const CardContainer = ({children}) => {
+export const CardContainer: React.FC = ({children}) => {
   const contentClassName = children
     ? `${cardsContainerClassName}__grid`
     : `${cardsContainerClassName}__not_found`;
