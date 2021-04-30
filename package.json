@@ -8,15 +8,7 @@
     "start": "webpack serve --mode development --open",
     "build": "webpack --mode production",
     "lint": "eslint --debug src/ --max-warnings=0",
-    "typecheck": "bash -c tsc --noEmit"
-  },
-  "lint-staged": {
-    "*.(js|jsx|ts|tsx)": [
-      "npm run lint"
-    ],
-    "*.(ts|tsx)": [
-      "npm run typecheck"
-    ]
+    "typecheck": "tsc --noEmit"
   },
   "author": "Laptev Vladislav <laptev-vlad2001@yandex.ru>",
   "license": "ISC",
