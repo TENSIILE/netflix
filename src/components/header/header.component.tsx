@@ -2,7 +2,7 @@ import React from 'react';
 import {Input, Tabs, TabsContainer, Button} from '@/components';
 import {Tab} from '@/types';
 import {headerClassName} from './header-classname';
-import './header.scss';
+import './header.style.scss';
 
 interface HeaderProp {
   input: string;

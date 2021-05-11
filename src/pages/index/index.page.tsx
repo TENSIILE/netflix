@@ -4,7 +4,7 @@ import {Movie} from '@/types/movie.type';
 import {Tab, TabsType} from '@/types';
 import {ensure, renamePropsObj} from '@/utils/helpers.util';
 import config from '@/config.json';
-import './index.scss';
+import './index.style.scss';
 
 interface IndexPageState {
   input: string;

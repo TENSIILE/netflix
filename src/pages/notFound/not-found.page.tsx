@@ -4,7 +4,7 @@ import {ReactSVG} from 'react-svg';
 import {Button} from '@/components';
 import header_img from '@/static/img/netflix-header.jpg';
 import notFoundSvg from '@/static/icons/404.svg';
-import './not-found.scss';
+import './not-found.style.scss';
 
 const notFoundPageClassName = 'not_found_page';
 

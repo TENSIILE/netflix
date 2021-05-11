@@ -2,7 +2,7 @@ import React from 'react';
 import {Tabs, TabsContainer} from '@/components';
 import {TabsType, Tab} from '@/types';
 import {searchOptionsClassName} from './search-options-classname';
-import './search-options.scss';
+import './search-options.style.scss';
 
 interface SearchOptionsProp {
   countMovies: number;
