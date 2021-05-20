@@ -96,7 +96,9 @@ export const IndexPage: React.FC = (): JSX.Element => {
     if (onFindActiveTab('sortTabs') === 'rating') {
       stateMovies.sort((a, b): number => b.voteAverage - a.voteAverage);
     } else {
-      stateMovies.sort((a, b): number => +new Date(b.releaseDate) - +new Date(a.releaseDate));
+      stateMovies.sort(
+        (a, b): number => Number(new Date(b.releaseDate)) - Number(new Date(a.releaseDate))
+      );
     }
 
     onChangeState('movies', stateMovies);
