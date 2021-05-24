@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '@/components';
 import {Movie} from '@/types/movie.type';
 import {renamePropsObj} from '@/utils/helpers.util';
@@ -9,17 +9,13 @@ interface MovieState {
   similarMoviesByGenre: Movie[];
 }
 
-export class MoviePage extends Component<unknown, MovieState> {
-  constructor(props: unknown) {
-    super(props);
+export const MoviePage: React.FC = (): JSX.Element => {
+  const [state, setState] = useState<MovieState>({
+    currentMovie: null,
+    similarMoviesByGenre: [],
+  });
 
-    this.state = {
-      currentMovie: null,
-      similarMoviesByGenre: [],
-    };
-  }
-
-  componentDidMount(): void {
+  useEffect((): void => {
     const url = new URLSearchParams(location.search);
     const id = url.get('id');
 
@@ -27,7 +23,7 @@ export class MoviePage extends Component<unknown, MovieState> {
       .then(res => res.json())
       .then(res => {
         renamePropsObj(res);
-        this.setState(prev => ({...prev, currentMovie: res}));
+        setState(prev => ({...prev, currentMovie: res}));
 
         fetch(`${config.SERVER_API}/movies?filter=${res.genres.join(',')}`)
           .then(res => res.json())
@@ -36,31 +32,29 @@ export class MoviePage extends Component<unknown, MovieState> {
             const movies = res.data.filter(
               (movie: Movie) => movie.id.toString() !== id?.toString()
             );
-            this.setState(prev => ({...prev, similarMoviesByGenre: movies}));
+            setState(prev => ({...prev, similarMoviesByGenre: movies}));
           });
       });
-  }
+  }, []);
 
-  render(): JSX.Element {
-    return (
-      <div className="certain_movie content">
-        <HeaderMovie {...this.state.currentMovie} />
-        <SearchOptionsMovie genres={this.state.currentMovie?.genres || []} />
-        <CardContainer>
-          {this.state.similarMoviesByGenre.length &&
-            this.state.similarMoviesByGenre.map(movie => (
-              <Card
-                key={movie.id}
-                id={movie.id}
-                title={movie.title}
-                posterPath={movie.posterPath}
-                releaseDate={movie.releaseDate}
-                genres={movie.genres}
-              />
-            ))}
-        </CardContainer>
-        <Footer />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="certain_movie content">
+      <HeaderMovie {...state.currentMovie} />
+      <SearchOptionsMovie genres={state.currentMovie?.genres || []} />
+      <CardContainer>
+        {state.similarMoviesByGenre.length &&
+          state.similarMoviesByGenre.map(movie => (
+            <Card
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              posterPath={movie.posterPath}
+              releaseDate={movie.releaseDate}
+              genres={movie.genres}
+            />
+          ))}
+      </CardContainer>
+      <Footer />
+    </div>
+  );
+};

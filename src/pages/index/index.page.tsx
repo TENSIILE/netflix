@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '@/components';
 import {Movie} from '@/types/movie.type';
 import {Tab, TabsType} from '@/types';
 import {ensure, renamePropsObj} from '@/utils/helpers.util';
 import config from '@/config.json';
-import './index.scss';
+import './index.style.scss';
 
 interface IndexPageState {
   input: string;
@@ -14,137 +14,125 @@ interface IndexPageState {
   sortTabs: Tab[];
 }
 
-export class IndexPage extends Component<unknown, IndexPageState> {
-  constructor(props: unknown) {
-    super(props);
+export const IndexPage: React.FC = (): JSX.Element => {
+  const [state, setState] = useState<IndexPageState>({
+    input: '',
+    movies: [],
+    cacheMovies: [],
+    tabs: [
+      {id: 0, title: 'title', isSelect: true},
+      {id: 1, title: 'genres', isSelect: false},
+    ],
+    sortTabs: [
+      {id: 0, title: 'release date', isSelect: false},
+      {id: 1, title: 'rating', isSelect: true},
+    ],
+  });
 
-    this.state = {
-      input: '',
-      movies: [],
-      cacheMovies: [],
-      tabs: [
-        {id: 0, title: 'title', isSelect: true},
-        {id: 1, title: 'genres', isSelect: false},
-      ],
-      sortTabs: [
-        {id: 0, title: 'release date', isSelect: false},
-        {id: 1, title: 'rating', isSelect: true},
-      ],
-    };
+  const onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    onChangeState('input', e.target.value);
+  };
 
-    this.onChangeInputHandler = this.onChangeInputHandler.bind(this);
-    this.onFindActiveTab = this.onFindActiveTab.bind(this);
-    this.onChangeState = this.onChangeState.bind(this);
-    this.onSearchMoviesHandler = this.onSearchMoviesHandler.bind(this);
-    this.onKeyPressEnterHandler = this.onKeyPressEnterHandler.bind(this);
-    this.onToggleTabsSearchHandler = this.onToggleTabsSearchHandler.bind(this);
-  }
+  const onFindActiveTab = (name: TabsType = 'tabs'): string => {
+    return ensure(state[name].find((tab: Tab) => tab.isSelect)).title;
+  };
 
-  onChangeInputHandler(e: React.ChangeEvent<HTMLInputElement>): void {
-    this.onChangeState('input', e.target.value);
-  }
-
-  onFindActiveTab(name: TabsType = 'tabs'): string {
-    return ensure(this.state[name].find((tab: Tab) => tab.isSelect)).title;
-  }
-
-  onChangeState(key: keyof IndexPageState, value: string | Array<Tab | Movie>): void {
-    this.setState(prev => ({
+  const onChangeState = (key: keyof IndexPageState, value: string | Array<Tab | Movie>): void => {
+    setState(prev => ({
       ...prev,
       [key]: value,
     }));
-  }
+  };
 
-  onSearchMoviesHandler(): void {
-    if (!!this.state.input.trim()) {
-      fetch(
-        `${config.SERVER_API}/movies?search=${this.state.input}&searchBy=${this.onFindActiveTab()}`
-      )
+  const onSearchMoviesHandler = (): void => {
+    if (!!state.input.trim()) {
+      fetch(`${config.SERVER_API}/movies?search=${state.input}&searchBy=${onFindActiveTab()}`)
         .then(res => res.json())
         .then(({data}) => {
           renamePropsObj(data);
-          this.onChangeState('cacheMovies', this.state.movies);
-          this.onChangeState('movies', data);
+          onChangeState('cacheMovies', state.movies);
+          onChangeState('movies', data);
         });
     } else {
-      if (this.state.cacheMovies.length) {
-        this.onChangeState('movies', this.state.cacheMovies);
+      if (state.cacheMovies.length) {
+        onChangeState('movies', state.cacheMovies);
       }
     }
-  }
+  };
 
-  onKeyPressEnterHandler(e: React.KeyboardEvent): void {
+  const onKeyPressEnterHandler = (e: React.KeyboardEvent): void => {
     if (e.key === 'Enter') {
-      this.onSearchMoviesHandler();
+      onSearchMoviesHandler();
     }
-  }
+  };
 
-  onToggleTabsSearchHandler(e: React.MouseEvent<HTMLLIElement>, name: TabsType = 'tabs'): void {
-    this.onChangeState(
+  const onToggleTabsSearchHandler = (
+    e: React.MouseEvent<HTMLLIElement>,
+    name: TabsType = 'tabs'
+  ): void => {
+    onChangeState(
       name,
-      this.state[name].map(tab => {
+      state[name].map(tab => {
         if (e.currentTarget.dataset.name === tab.title) {
           return {...tab, isSelect: true};
         }
         return {...tab, isSelect: false};
       })
     );
-  }
+  };
 
-  componentDidMount(): void {
+  useEffect((): void => {
     fetch(`${config.SERVER_API}/movies`)
       .then(res => res.json())
       .then(({data}) => {
         renamePropsObj(data);
-        this.onChangeState('movies', data);
+        onChangeState('movies', data);
       });
-  }
+  }, []);
 
-  componentDidUpdate(_: unknown, prevState: IndexPageState): void {
-    if (prevState.movies === this.state.movies && prevState.sortTabs !== this.state.sortTabs) {
-      const stateMovies = [...this.state.movies];
+  useEffect((): void => {
+    const stateMovies = [...state.movies];
 
-      if (this.onFindActiveTab('sortTabs') === 'rating') {
-        stateMovies.sort((a, b): number => b.voteAverage - a.voteAverage);
-      } else {
-        stateMovies.sort((a, b): number => +new Date(b.releaseDate) - +new Date(a.releaseDate));
-      }
-
-      this.onChangeState('movies', stateMovies);
+    if (onFindActiveTab('sortTabs') === 'rating') {
+      stateMovies.sort((a, b): number => b.voteAverage - a.voteAverage);
+    } else {
+      stateMovies.sort(
+        (a, b): number => Number(new Date(b.releaseDate)) - Number(new Date(a.releaseDate))
+      );
     }
-  }
 
-  render(): JSX.Element {
-    return (
-      <div className="index_page">
-        <Header
-          input={this.state.input}
-          tabs={this.state.tabs}
-          onToggleTabs={this.onToggleTabsSearchHandler}
-          onChangeInput={this.onChangeInputHandler}
-          onSearchMovies={this.onSearchMoviesHandler}
-          onKeyPressEnterHandler={this.onKeyPressEnterHandler}
-        />
-        <SearchOptions
-          countMovies={this.state.movies.length}
-          sortTabs={this.state.sortTabs}
-          onSelect={this.onToggleTabsSearchHandler}
-        />
-        <CardContainer>
-          {this.state.movies.length &&
-            this.state.movies.map(movie => (
-              <Card
-                key={movie.id}
-                id={movie.id}
-                title={movie.title}
-                posterPath={movie.posterPath}
-                releaseDate={movie.releaseDate}
-                genres={movie.genres}
-              />
-            ))}
-        </CardContainer>
-        <Footer />
-      </div>
-    );
-  }
-}
+    onChangeState('movies', stateMovies);
+  }, [state.sortTabs]);
+
+  return (
+    <div className="index_page">
+      <Header
+        input={state.input}
+        tabs={state.tabs}
+        onToggleTabs={onToggleTabsSearchHandler}
+        onChangeInput={onChangeInputHandler}
+        onSearchMovies={onSearchMoviesHandler}
+        onKeyPressEnterHandler={onKeyPressEnterHandler}
+      />
+      <SearchOptions
+        countMovies={state.movies.length}
+        sortTabs={state.sortTabs}
+        onSelect={onToggleTabsSearchHandler}
+      />
+      <CardContainer>
+        {state.movies.length &&
+          state.movies.map(movie => (
+            <Card
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              posterPath={movie.posterPath}
+              releaseDate={movie.releaseDate}
+              genres={movie.genres}
+            />
+          ))}
+      </CardContainer>
+      <Footer />
+    </div>
+  );
+};
