@@ -1,7 +1,7 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import {IndexPage, NotFoundPage, MoviePage} from './pages';
-import {ErrorBoundary} from './components';
+import {IndexPage, NotFoundPage, MoviePage} from '@/pages';
+import {ErrorBoundary} from '@/components';
 
 export const Routes: React.FC = () => (
   <ErrorBoundary>
