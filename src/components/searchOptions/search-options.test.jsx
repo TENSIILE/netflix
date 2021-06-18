@@ -47,7 +47,6 @@ describe('SearchOptions component', () => {
     ];
     const mockCallback = jest.fn();
 
-    expect(mockCallback.mock.calls.length).toBe(0);
     const component = mount(<SearchOptions sortTabs={tabs} onSelect={mockCallback} />);
     component.find(`.${tabsContainerClassName}__item`).first().simulate('click');
     expect(mockCallback.mock.calls.length).toBe(1);

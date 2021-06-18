@@ -12,7 +12,6 @@ describe('Button component', () => {
     const mockCallback = jest.fn();
     const component = shallow(<Button onClick={mockCallback}>Simple Button</Button>);
 
-    expect(mockCallback.mock.calls.length).toBe(0);
     component.simulate('click');
     expect(mockCallback.mock.calls.length).toBe(1);
   });

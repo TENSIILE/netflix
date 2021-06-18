@@ -34,12 +34,14 @@ global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
 
 let component;
 
-beforeEach(() => {
-  component = mount(
-    <BrowserRouter>
-      <IndexPage />
-    </BrowserRouter>
-  );
+beforeEach(async () => {
+  await waitFor(() => {
+    component = mount(
+      <BrowserRouter>
+        <IndexPage />
+      </BrowserRouter>
+    );
+  });
 });
 
 describe('IndexPage component', () => {

@@ -33,7 +33,6 @@ describe('"RenamePropsObj" function test', () => {
 
     renamePropsObj(array, {name: 'super_name'});
 
-    expect(array[0]).toHaveProperty('super_name');
     expect(array[1]).toHaveProperty('super_name');
   });
 

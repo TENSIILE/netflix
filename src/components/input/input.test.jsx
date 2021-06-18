@@ -12,7 +12,6 @@ describe('Input component', () => {
     const mockCallback = jest.fn();
 
     const component = shallow(<Input onChange={mockCallback} />);
-    expect(mockCallback.mock.calls.length).toBe(0);
 
     component.find('input').simulate('change');
     expect(mockCallback.mock.calls.length).toBe(1);
