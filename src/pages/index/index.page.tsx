@@ -1,61 +1,36 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '@/components';
-import {Movie} from '@/types/movie.type';
-import {Tab, TabsType} from '@/types';
-import {ensure, renamePropsObj} from '@/utils/helpers.util';
-import config from '@/config.json';
+import {Tab, TabsType, Store} from '@/types';
+import {ensure} from '@/utils/helpers.util';
+import {
+  changeInputAction,
+  searchMoviesAction,
+  initFetchMoviesAction,
+  uploadCacheMoviesAction,
+  toggleTabsAction,
+  sortMoviesAction,
+} from '@/redux/actions';
 import './index.style.scss';
 
-interface IndexPageState {
-  input: string;
-  movies: Movie[];
-  cacheMovies: Movie[];
-  tabs: Tab[];
-  sortTabs: Tab[];
-}
-
 export const IndexPage: React.FC = (): JSX.Element => {
-  const [state, setState] = useState<IndexPageState>({
-    input: '',
-    movies: [],
-    cacheMovies: [],
-    tabs: [
-      {id: 0, title: 'title', isSelect: true},
-      {id: 1, title: 'genres', isSelect: false},
-    ],
-    sortTabs: [
-      {id: 0, title: 'release date', isSelect: false},
-      {id: 1, title: 'rating', isSelect: true},
-    ],
-  });
+  const state = useSelector<Store, Store>(state => state);
+  const dispatch = useDispatch();
 
   const onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    onChangeState('input', e.target.value);
+    dispatch(changeInputAction(e));
   };
 
   const onFindActiveTab = (name: TabsType = 'tabs'): string => {
-    return ensure(state[name].find((tab: Tab) => tab.isSelect)).title;
-  };
-
-  const onChangeState = (key: keyof IndexPageState, value: string | Array<Tab | Movie>): void => {
-    setState(prev => ({
-      ...prev,
-      [key]: value,
-    }));
+    return ensure(state.tabs[name].find((tab: Tab) => tab.isSelect)).title;
   };
 
   const onSearchMoviesHandler = (): void => {
-    if (!!state.input.trim()) {
-      fetch(`${config.SERVER_API}/movies?search=${state.input}&searchBy=${onFindActiveTab()}`)
-        .then(res => res.json())
-        .then(({data}) => {
-          renamePropsObj(data);
-          onChangeState('cacheMovies', state.movies);
-          onChangeState('movies', data);
-        });
+    if (!!state.inputs.input.trim()) {
+      dispatch(searchMoviesAction(state.inputs.input, onFindActiveTab()));
     } else {
-      if (state.cacheMovies.length) {
-        onChangeState('movies', state.cacheMovies);
+      if (state.movies.cacheMovies.length) {
+        dispatch(uploadCacheMoviesAction());
       }
     }
   };
@@ -70,28 +45,15 @@ export const IndexPage: React.FC = (): JSX.Element => {
     e: React.MouseEvent<HTMLLIElement>,
     name: TabsType = 'tabs'
   ): void => {
-    onChangeState(
-      name,
-      state[name].map(tab => {
-        if (e.currentTarget.dataset.name === tab.title) {
-          return {...tab, isSelect: true};
-        }
-        return {...tab, isSelect: false};
-      })
-    );
+    dispatch(toggleTabsAction(e, name));
   };
 
   useEffect((): void => {
-    fetch(`${config.SERVER_API}/movies`)
-      .then(res => res.json())
-      .then(({data}) => {
-        renamePropsObj(data);
-        onChangeState('movies', data);
-      });
+    dispatch(initFetchMoviesAction());
   }, []);
 
   useEffect((): void => {
-    const stateMovies = [...state.movies];
+    const stateMovies = [...state.movies.movies];
 
     if (onFindActiveTab('sortTabs') === 'rating') {
       stateMovies.sort((a, b): number => b.voteAverage - a.voteAverage);
@@ -101,27 +63,27 @@ export const IndexPage: React.FC = (): JSX.Element => {
       );
     }
 
-    onChangeState('movies', stateMovies);
-  }, [state.sortTabs]);
+    dispatch(sortMoviesAction(stateMovies));
+  }, [state.tabs.sortTabs]);
 
   return (
     <div className="index_page">
       <Header
-        input={state.input}
-        tabs={state.tabs}
+        input={state.inputs.input}
+        tabs={state.tabs.tabs}
         onToggleTabs={onToggleTabsSearchHandler}
         onChangeInput={onChangeInputHandler}
         onSearchMovies={onSearchMoviesHandler}
         onKeyPressEnterHandler={onKeyPressEnterHandler}
       />
       <SearchOptions
-        countMovies={state.movies.length}
-        sortTabs={state.sortTabs}
+        countMovies={state.movies.movies.length}
+        sortTabs={state.tabs.sortTabs}
         onSelect={onToggleTabsSearchHandler}
       />
       <CardContainer>
-        {state.movies.length &&
-          state.movies.map(movie => (
+        {state.movies.movies.length &&
+          state.movies.movies.map(movie => (
             <Card
               key={movie.id}
               id={movie.id}

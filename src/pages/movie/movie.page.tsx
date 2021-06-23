@@ -1,49 +1,24 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '@/components';
-import {Movie} from '@/types/movie.type';
-import {renamePropsObj} from '@/utils/helpers.util';
-import config from '@/config.json';
-
-interface MovieState {
-  currentMovie: Movie | null;
-  similarMoviesByGenre: Movie[];
-}
+import {useDispatch, useSelector} from 'react-redux';
+import {Store} from '@/types';
+import {uploadSelectedMovieAction} from '@/redux/actions';
 
 export const MoviePage: React.FC = (): JSX.Element => {
-  const [state, setState] = useState<MovieState>({
-    currentMovie: null,
-    similarMoviesByGenre: [],
-  });
+  const state = useSelector<Store, Store>(state => state);
+  const dispatch = useDispatch();
 
   useEffect((): void => {
-    const url = new URLSearchParams(location.search);
-    const id = url.get('id');
-
-    fetch(`${config.SERVER_API}/movies/${id}`)
-      .then(res => res.json())
-      .then(res => {
-        renamePropsObj(res);
-        setState(prev => ({...prev, currentMovie: res}));
-
-        fetch(`${config.SERVER_API}/movies?filter=${res.genres.join(',')}`)
-          .then(res => res.json())
-          .then(res => {
-            renamePropsObj(res.data);
-            const movies = res.data.filter(
-              (movie: Movie) => movie.id.toString() !== id?.toString()
-            );
-            setState(prev => ({...prev, similarMoviesByGenre: movies}));
-          });
-      });
+    dispatch(uploadSelectedMovieAction());
   }, []);
 
   return (
     <div className="certain_movie content">
-      <HeaderMovie {...state.currentMovie} />
-      <SearchOptionsMovie genres={state.currentMovie?.genres || []} />
+      <HeaderMovie {...state.movies.currentMovie} />
+      <SearchOptionsMovie genres={state.movies.currentMovie?.genres || []} />
       <CardContainer>
-        {state.similarMoviesByGenre.length &&
-          state.similarMoviesByGenre.map(movie => (
+        {state.movies.similarMoviesByGenre.length &&
+          state.movies.similarMoviesByGenre.map(movie => (
             <Card
               key={movie.id}
               id={movie.id}
