@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '@/components';
-import {Tab, TabsType, Store} from '@/types';
+import {TabsStore, MoviesStore, Store} from '@/types/store.type';
+import {Tab, TabsType} from '@/types';
 import {ensure} from '@/utils/helpers.util';
 import {
   changeInputAction,
@@ -13,8 +14,18 @@ import {
 } from '@/redux/actions';
 import './index.style.scss';
 
+interface SelectedState {
+  input: string;
+  movies: MoviesStore;
+  tabs: TabsStore;
+}
+
 export const IndexPage: React.FC = (): JSX.Element => {
-  const state = useSelector<Store, Store>(state => state);
+  const {input, movies, tabs} = useSelector<Store, SelectedState>(state => ({
+    input: state.inputs.input,
+    movies: state.movies,
+    tabs: state.tabs,
+  }));
   const dispatch = useDispatch();
 
   const onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -22,14 +33,14 @@ export const IndexPage: React.FC = (): JSX.Element => {
   };
 
   const onFindActiveTab = (name: TabsType = 'tabs'): string => {
-    return ensure(state.tabs[name].find((tab: Tab) => tab.isSelect)).title;
+    return ensure(tabs[name].find((tab: Tab) => tab.isSelect)).title;
   };
 
   const onSearchMoviesHandler = (): void => {
-    if (!!state.inputs.input.trim()) {
-      dispatch(searchMoviesAction(state.inputs.input, onFindActiveTab()));
+    if (!!input.trim()) {
+      dispatch(searchMoviesAction(input, onFindActiveTab()));
     } else {
-      if (state.movies.cacheMovies.length) {
+      if (movies.cacheMovies.length) {
         dispatch(uploadCacheMoviesAction());
       }
     }
@@ -53,7 +64,7 @@ export const IndexPage: React.FC = (): JSX.Element => {
   }, []);
 
   useEffect((): void => {
-    const stateMovies = [...state.movies.movies];
+    const stateMovies = [...movies.movies];
 
     if (onFindActiveTab('sortTabs') === 'rating') {
       stateMovies.sort((a, b): number => b.voteAverage - a.voteAverage);
@@ -64,26 +75,26 @@ export const IndexPage: React.FC = (): JSX.Element => {
     }
 
     dispatch(sortMoviesAction(stateMovies));
-  }, [state.tabs.sortTabs]);
+  }, [tabs.sortTabs]);
 
   return (
     <div className="index_page">
       <Header
-        input={state.inputs.input}
-        tabs={state.tabs.tabs}
+        input={input}
+        tabs={tabs.tabs}
         onToggleTabs={onToggleTabsSearchHandler}
         onChangeInput={onChangeInputHandler}
         onSearchMovies={onSearchMoviesHandler}
         onKeyPressEnterHandler={onKeyPressEnterHandler}
       />
       <SearchOptions
-        countMovies={state.movies.movies.length}
-        sortTabs={state.tabs.sortTabs}
+        countMovies={movies.movies.length}
+        sortTabs={tabs.sortTabs}
         onSelect={onToggleTabsSearchHandler}
       />
       <CardContainer>
-        {state.movies.movies.length &&
-          state.movies.movies.map(movie => (
+        {movies.movies.length &&
+          movies.movies.map(movie => (
             <Card
               key={movie.id}
               id={movie.id}

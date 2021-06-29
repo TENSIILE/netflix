@@ -1,17 +1,13 @@
 import React from 'react';
 import {BrowserRouter} from 'react-router-dom';
-import {createStore, compose, applyMiddleware} from 'redux';
+import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
 import {rootReducer} from '@/redux/reducers';
-import {loggerMiddleware, thunkMiddleware} from '@/redux/middleware';
 import {Routes} from '@/components';
+import {createEnhancers} from '@/utils/redux.utils';
 import './index.style.scss';
 
-const store = createStore(
-  rootReducer,
-  compose(applyMiddleware(loggerMiddleware, thunkMiddleware), composeWithDevTools())
-);
+const store = createStore(rootReducer, createEnhancers());
 
 export const App: React.FC = () => {
   return (

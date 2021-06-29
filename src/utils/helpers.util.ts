@@ -1,3 +1,5 @@
+import {Movie, MovieData} from '@/types/movie.type';
+
 export const ensure = <T>(
   argument: T | undefined,
   message = 'Произошла ошибка, argument является undefined!'
@@ -9,31 +11,15 @@ export const ensure = <T>(
   return argument;
 };
 
-interface CustomObj {
-  [key: string]: string;
-}
-
-export const renamePropsObj = (
-  obj: CustomObj[] | CustomObj,
-  objNames: CustomObj = {
-    poster_path: 'posterPath',
-    release_date: 'releaseDate',
-    vote_average: 'voteAverage',
-    vote_count: 'voteCount',
-  }
-): void => {
-  const rewriteObj = (object: CustomObj): void => {
-    for (const key in object) {
-      for (const keyName in objNames) {
-        if (key.toString() === keyName.toString()) {
-          object[objNames[keyName]] = object[key];
-          delete object[key];
-        }
-      }
-    }
+export const mapMovieDataToMovie = (movieData: MovieData): Movie => {
+  return {
+    ...movieData,
+    posterPath: movieData.poster_path,
+    releaseDate: movieData.release_date,
+    voteAverage: movieData.vote_average,
+    voteCount: movieData.vote_count,
   };
-
-  if (!Array.isArray(obj)) return rewriteObj(obj);
-
-  for (const i of obj) rewriteObj(i);
 };
+
+export const mapMovieDataArrayToMovie = (movieDataArray: MovieData[]): Movie[] =>
+  movieDataArray.map(mapMovieDataToMovie);

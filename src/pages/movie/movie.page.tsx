@@ -1,11 +1,20 @@
 import React, {useEffect} from 'react';
-import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '@/components';
 import {useDispatch, useSelector} from 'react-redux';
-import {Store} from '@/types';
+import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '@/components';
 import {uploadSelectedMovieAction} from '@/redux/actions';
+import {Store} from '@/types/store.type';
+import {Movie} from '@/types/movie.type';
+
+interface SelectedState {
+  currentMovie: Movie | null;
+  similarMoviesByGenre: Movie[];
+}
 
 export const MoviePage: React.FC = (): JSX.Element => {
-  const state = useSelector<Store, Store>(state => state);
+  const {currentMovie, similarMoviesByGenre} = useSelector<Store, SelectedState>(state => ({
+    currentMovie: state.movies.currentMovie,
+    similarMoviesByGenre: state.movies.similarMoviesByGenre,
+  }));
   const dispatch = useDispatch();
 
   useEffect((): void => {
@@ -14,11 +23,11 @@ export const MoviePage: React.FC = (): JSX.Element => {
 
   return (
     <div className="certain_movie content">
-      <HeaderMovie {...state.movies.currentMovie} />
-      <SearchOptionsMovie genres={state.movies.currentMovie?.genres || []} />
+      <HeaderMovie {...currentMovie} />
+      <SearchOptionsMovie genres={currentMovie?.genres || []} />
       <CardContainer>
-        {state.movies.similarMoviesByGenre.length &&
-          state.movies.similarMoviesByGenre.map(movie => (
+        {similarMoviesByGenre.length &&
+          similarMoviesByGenre.map(movie => (
             <Card
               key={movie.id}
               id={movie.id}
