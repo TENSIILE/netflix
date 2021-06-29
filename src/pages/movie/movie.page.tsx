@@ -1,49 +1,33 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '@/components';
+import {uploadSelectedMovieAction} from '@/redux/actions';
+import {Store} from '@/types/store.type';
 import {Movie} from '@/types/movie.type';
-import {renamePropsObj} from '@/utils/helpers.util';
-import config from '@/config.json';
 
-interface MovieState {
+interface SelectedState {
   currentMovie: Movie | null;
   similarMoviesByGenre: Movie[];
 }
 
 export const MoviePage: React.FC = (): JSX.Element => {
-  const [state, setState] = useState<MovieState>({
-    currentMovie: null,
-    similarMoviesByGenre: [],
-  });
+  const {currentMovie, similarMoviesByGenre} = useSelector<Store, SelectedState>(state => ({
+    currentMovie: state.movies.currentMovie,
+    similarMoviesByGenre: state.movies.similarMoviesByGenre,
+  }));
+  const dispatch = useDispatch();
 
   useEffect((): void => {
-    const url = new URLSearchParams(location.search);
-    const id = url.get('id');
-
-    fetch(`${config.SERVER_API}/movies/${id}`)
-      .then(res => res.json())
-      .then(res => {
-        renamePropsObj(res);
-        setState(prev => ({...prev, currentMovie: res}));
-
-        fetch(`${config.SERVER_API}/movies?filter=${res.genres.join(',')}`)
-          .then(res => res.json())
-          .then(res => {
-            renamePropsObj(res.data);
-            const movies = res.data.filter(
-              (movie: Movie) => movie.id.toString() !== id?.toString()
-            );
-            setState(prev => ({...prev, similarMoviesByGenre: movies}));
-          });
-      });
+    dispatch(uploadSelectedMovieAction());
   }, []);
 
   return (
     <div className="certain_movie content">
-      <HeaderMovie {...state.currentMovie} />
-      <SearchOptionsMovie genres={state.currentMovie?.genres || []} />
+      <HeaderMovie {...currentMovie} />
+      <SearchOptionsMovie genres={currentMovie?.genres || []} />
       <CardContainer>
-        {state.similarMoviesByGenre.length &&
-          state.similarMoviesByGenre.map(movie => (
+        {similarMoviesByGenre.length &&
+          similarMoviesByGenre.map(movie => (
             <Card
               key={movie.id}
               id={movie.id}
