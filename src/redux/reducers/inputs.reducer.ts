@@ -1,8 +1,9 @@
 import {AnyAction} from 'redux';
 import {INPUT_CHANGE} from '@/redux/types/inputs.type';
+import {getURLParams} from '@/utils/helpers.util';
 
 const initialState = {
-  input: '',
+  input: getURLParams('search') || '',
 };
 
 interface InputState {

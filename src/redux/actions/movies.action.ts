@@ -6,9 +6,14 @@ import {
   LOAD_SIMILAR_MOVIES_BY_GENRE,
   LOAD_CURRENT_MOVIE,
 } from '@/redux/types/movies.type';
-import {Movie} from '@/types/movie.type';
-import {mapMovieDataArrayToMovie, mapMovieDataToMovie} from '@/utils/helpers.util';
-import config from '@/config.json';
+import {Movie, MovieData} from '@/types/movie.type';
+import {
+  mapMovieDataArrayToMovie,
+  mapMovieDataToMovie,
+  setURL,
+  getURLParams,
+} from '@/utils/helpers.util';
+import {request} from '@/utils/http.utils';
 
 const searchMoviesActionCreator = (movies: Movie | Movie[]): AnyAction => ({
   type: SEARCH_MOVIES,
@@ -35,48 +40,46 @@ export const sortMoviesAction = (movies: Movie | Movie[]): AnyAction => ({
   payload: movies,
 });
 
+export const uploadCacheMoviesAction = (): AnyAction => {
+  setURL('/');
+  return {
+    type: UPLOAD_CACHE_MOVIES,
+  };
+};
+
 export const searchMoviesAction = (input: string, activeTab: string) => {
   return async (dispatch: Dispatch): Promise<void> => {
-    const response = await fetch(
-      `${config.SERVER_API}/movies?search=${input}&searchBy=${activeTab}`
-    );
-    const {data} = await response.json();
+    setURL(`/search?search=${input}`);
 
+    const {data} = await request(`/movies?search=${input}&searchBy=${activeTab}`);
     dispatch(searchMoviesActionCreator(mapMovieDataArrayToMovie(data)));
   };
 };
 
-export const uploadCacheMoviesAction = (): AnyAction => ({
-  type: UPLOAD_CACHE_MOVIES,
-});
+export const initFetchMoviesAction = (activeTab: string) => {
+  return async (dispatch: Dispatch): Promise<AnyAction | void> => {
+    const search = getURLParams('search');
 
-export const initFetchMoviesAction = () => {
-  return async (dispatch: Dispatch): Promise<void> => {
-    const response = await fetch(`${config.SERVER_API}/movies?sortBy=vote_average&sortOrder=desc`);
-    const {data} = await response.json();
+    if (search) {
+      const {data} = await request(`/movies?search=${search}&searchBy=${activeTab}`);
+      return dispatch(searchMoviesActionCreator(mapMovieDataArrayToMovie(data)));
+    }
 
+    const {data} = await request('/movies?sortBy=vote_average&sortOrder=desc');
     dispatch(initFetchMoviesActionCreator(mapMovieDataArrayToMovie(data)));
   };
 };
 
 export const uploadSelectedMovieAction = () => {
   return async (dispatch: Dispatch): Promise<void> => {
-    const url = new URLSearchParams(location.search);
-    const id = url.get('id');
+    const id = getURLParams('id');
 
-    const response = await fetch(`${config.SERVER_API}/movies/${id}`);
-    const res = await response.json();
-
+    const res: MovieData = await request(`/movies/${id}`);
     dispatch(loadCurrentMovieAction(mapMovieDataToMovie(res)));
 
-    const response_similar = await fetch(
-      `${config.SERVER_API}/movies?filter=${res.genres.join(',')}`
-    );
-    const res_similar = await response_similar.json();
+    const {data} = await request(`/movies?filter=${res.genres.join(',')}`);
 
-    const movies = res_similar.data.filter(
-      (movie: Movie) => movie.id.toString() !== id?.toString()
-    );
+    const movies = data.filter((movie: Movie) => movie.id.toString() !== id?.toString());
     dispatch(loadSimilarMoviesByGenreAction(mapMovieDataArrayToMovie(movies)));
   };
 };
