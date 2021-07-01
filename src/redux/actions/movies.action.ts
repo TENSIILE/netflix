@@ -7,12 +7,7 @@ import {
   LOAD_CURRENT_MOVIE,
 } from '@/redux/types/movies.type';
 import {Movie, MovieData} from '@/types/movie.type';
-import {
-  mapMovieDataArrayToMovie,
-  mapMovieDataToMovie,
-  setURL,
-  getURLParams,
-} from '@/utils/helpers.util';
+import {mapMovieDataArrayToMovie, mapMovieDataToMovie, getURLParams} from '@/utils/helpers.util';
 import {request} from '@/utils/http.utils';
 
 const searchMoviesActionCreator = (movies: Movie | Movie[]): AnyAction => ({
@@ -40,17 +35,12 @@ export const sortMoviesAction = (movies: Movie | Movie[]): AnyAction => ({
   payload: movies,
 });
 
-export const uploadCacheMoviesAction = (): AnyAction => {
-  setURL('/');
-  return {
-    type: UPLOAD_CACHE_MOVIES,
-  };
-};
+export const uploadCacheMoviesAction = (): AnyAction => ({
+  type: UPLOAD_CACHE_MOVIES,
+});
 
 export const searchMoviesAction = (input: string, activeTab: string) => {
   return async (dispatch: Dispatch): Promise<void> => {
-    setURL(`/search?search=${input}`);
-
     const {data} = await request(`/movies?search=${input}&searchBy=${activeTab}`);
     dispatch(searchMoviesActionCreator(mapMovieDataArrayToMovie(data)));
   };
@@ -74,7 +64,7 @@ export const uploadSelectedMovieAction = () => {
   return async (dispatch: Dispatch): Promise<void> => {
     const id = getURLParams('id');
 
-    const res: MovieData = await request(`/movies/${id}`);
+    const res = await request<MovieData>(`/movies/${id}`);
     dispatch(loadCurrentMovieAction(mapMovieDataToMovie(res)));
 
     const {data} = await request(`/movies?filter=${res.genres.join(',')}`);

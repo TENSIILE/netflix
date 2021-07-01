@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {Button} from '@/components';
 import {headerClassName} from './header-classname';
 
@@ -25,9 +25,9 @@ export const HeaderMovie: React.FC<HeaderMovieProp> = ({
   <div className={headerClassName}>
     <div className={`${headerClassName}__nav`}>
       <h3 className={`${headerClassName}__title`}>Netflixroulette</h3>
-      <Link to="/">
-        <Button className="btn__link">Search</Button>
-      </Link>
+      <Button className="btn__link" onClick={useHistory().goBack}>
+        Search
+      </Button>
     </div>
     <div className={`${headerClassName}__body ${headerClassName}__info_movie`}>
       <div className={`${headerClassName}__poster`}>

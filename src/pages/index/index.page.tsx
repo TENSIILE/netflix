@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '@/components';
 import {TabsStore, MoviesStore, Store} from '@/types/store.type';
 import {Tab, TabsType} from '@/types';
-import {ensure, sortMoviesByVoteAverageOrReleaseDate} from '@/utils/helpers.util';
+import {ensure, sortMoviesByVoteAverageOrReleaseDate, setURL} from '@/utils/helpers.util';
 import {
   changeInputAction,
   searchMoviesAction,
@@ -38,13 +38,14 @@ export const IndexPage: React.FC = (): JSX.Element => {
 
   const onSearchMoviesHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    setURL(`/search?search=${input}`);
 
     if (!!input.trim()) {
       dispatch(searchMoviesAction(input, onFindActiveTab()));
       return;
     }
 
-    movies.cacheMovies.length && dispatch(uploadCacheMoviesAction());
+    movies.cacheMovies.length && setURL('/') && dispatch(uploadCacheMoviesAction());
   };
 
   const onToggleTabsSearchHandler = (
