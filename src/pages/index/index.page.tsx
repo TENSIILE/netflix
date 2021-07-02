@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {AnyAction} from 'redux';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '@/components';
 import {TabsStore, MoviesStore, Store} from '@/types/store.type';
 import {Tab, TabsType} from '@/types';
@@ -36,16 +37,21 @@ export const IndexPage: React.FC = (): JSX.Element => {
     return ensure(tabs[name].find((tab: Tab) => tab.isSelect)).title;
   };
 
-  const onSearchMoviesHandler = (e: React.FormEvent<HTMLFormElement>): void => {
+  const onSearchMoviesHandler = (e: React.FormEvent<HTMLFormElement>): AnyAction | void => {
     e.preventDefault();
-    setURL(`/search?search=${input}`);
 
     if (!!input.trim()) {
+      setURL(`/search?search=${input}`);
       dispatch(searchMoviesAction(input, onFindActiveTab()));
       return;
     }
 
-    movies.cacheMovies.length && setURL('/') && dispatch(uploadCacheMoviesAction());
+    if (movies.cacheMovies.length) {
+      return dispatch(uploadCacheMoviesAction());
+    }
+
+    setURL('/');
+    dispatch(initFetchMoviesAction(onFindActiveTab()));
   };
 
   const onToggleTabsSearchHandler = (
