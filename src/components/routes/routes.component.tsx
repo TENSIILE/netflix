@@ -6,7 +6,7 @@ import {ErrorBoundary} from '@/components';
 export const Routes: React.FC = () => (
   <ErrorBoundary>
     <Switch>
-      <Route path="/" exact>
+      <Route path={['/', '/search']} exact>
         <IndexPage />
       </Route>
       <Route path="/film">

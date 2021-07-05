@@ -9,8 +9,7 @@ interface HeaderProp {
   tabs: Tab[];
   onToggleTabs: (e: React.MouseEvent<HTMLLIElement>) => void;
   onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearchMovies: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onKeyPressEnterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onSearchMovies: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export const Header: React.FC<HeaderProp> = ({
@@ -19,29 +18,29 @@ export const Header: React.FC<HeaderProp> = ({
   onToggleTabs,
   onChangeInput,
   onSearchMovies,
-  onKeyPressEnterHandler,
 }) => (
   <div className={headerClassName}>
     <div className={`${headerClassName}__nav`}>
       <h3 className={`${headerClassName}__title`}>Netflixroulette</h3>
     </div>
-    <div className={`${headerClassName}__body`}>
-      <div className={`${headerClassName}__input`}>
-        <h3>Find your movie</h3>
-        <Input
-          className="input_field"
-          placeholder="Enter movie title or genre"
-          value={input}
-          onChange={onChangeInput}
-          onKeyPress={onKeyPressEnterHandler}
-        />
+    <form onSubmit={onSearchMovies}>
+      <div className={`${headerClassName}__body`}>
+        <div className={`${headerClassName}__input`}>
+          <h3>Find your movie</h3>
+          <Input
+            className="input_field"
+            placeholder="Enter movie title or genre"
+            value={input}
+            onChange={onChangeInput}
+          />
+        </div>
       </div>
-    </div>
-    <div className={`${headerClassName}__footer`}>
-      <TabsContainer>
-        <Tabs tabs={tabs} onSelect={onToggleTabs} />
-      </TabsContainer>
-      <Button onClick={onSearchMovies}>Search</Button>
-    </div>
+      <div className={`${headerClassName}__footer`}>
+        <TabsContainer>
+          <Tabs tabs={tabs} onSelect={onToggleTabs} />
+        </TabsContainer>
+        <Button type="submit">Search</Button>
+      </div>
+    </form>
   </div>
 );

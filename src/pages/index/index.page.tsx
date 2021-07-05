@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {AnyAction} from 'redux';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '@/components';
 import {TabsStore, MoviesStore, Store} from '@/types/store.type';
 import {Tab, TabsType} from '@/types';
-import {ensure} from '@/utils/helpers.util';
+import {ensure, sortMoviesByVoteAverageOrReleaseDate, setURL} from '@/utils/helpers.util';
 import {
   changeInputAction,
   searchMoviesAction,
@@ -36,20 +37,21 @@ export const IndexPage: React.FC = (): JSX.Element => {
     return ensure(tabs[name].find((tab: Tab) => tab.isSelect)).title;
   };
 
-  const onSearchMoviesHandler = (): void => {
-    if (!!input.trim()) {
-      dispatch(searchMoviesAction(input, onFindActiveTab()));
-    } else {
-      if (movies.cacheMovies.length) {
-        dispatch(uploadCacheMoviesAction());
-      }
-    }
-  };
+  const onSearchMoviesHandler = (e: React.FormEvent<HTMLFormElement>): AnyAction | void => {
+    e.preventDefault();
 
-  const onKeyPressEnterHandler = (e: React.KeyboardEvent): void => {
-    if (e.key === 'Enter') {
-      onSearchMoviesHandler();
+    if (!!input.trim()) {
+      setURL(`/search?search=${input}`);
+      dispatch(searchMoviesAction(input, onFindActiveTab()));
+      return;
     }
+
+    if (movies.cacheMovies.length) {
+      return dispatch(uploadCacheMoviesAction());
+    }
+
+    setURL('/');
+    dispatch(initFetchMoviesAction(onFindActiveTab()));
   };
 
   const onToggleTabsSearchHandler = (
@@ -60,21 +62,15 @@ export const IndexPage: React.FC = (): JSX.Element => {
   };
 
   useEffect((): void => {
-    dispatch(initFetchMoviesAction());
+    dispatch(initFetchMoviesAction(onFindActiveTab()));
   }, []);
 
   useEffect((): void => {
-    const stateMovies = [...movies.movies];
-
-    if (onFindActiveTab('sortTabs') === 'rating') {
-      stateMovies.sort((a, b): number => b.voteAverage - a.voteAverage);
-    } else {
-      stateMovies.sort(
-        (a, b): number => Number(new Date(b.releaseDate)) - Number(new Date(a.releaseDate))
-      );
-    }
-
-    dispatch(sortMoviesAction(stateMovies));
+    const sortedMovies = sortMoviesByVoteAverageOrReleaseDate(
+      movies.movies,
+      onFindActiveTab('sortTabs')
+    );
+    dispatch(sortMoviesAction(sortedMovies));
   }, [tabs.sortTabs]);
 
   return (
@@ -85,7 +81,6 @@ export const IndexPage: React.FC = (): JSX.Element => {
         onToggleTabs={onToggleTabsSearchHandler}
         onChangeInput={onChangeInputHandler}
         onSearchMovies={onSearchMoviesHandler}
-        onKeyPressEnterHandler={onKeyPressEnterHandler}
       />
       <SearchOptions
         countMovies={movies.movies.length}
