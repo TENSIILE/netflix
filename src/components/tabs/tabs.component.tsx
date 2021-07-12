@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
+import styled from 'styled-components';
 import {Tab} from '@/types';
 import {tabsContainerClassName} from './tabs-container-classname';
-import './tabs.style.scss';
 
 interface TabProp {
   tabs: Tab[];
@@ -11,7 +11,7 @@ interface TabProp {
 
 export const Tabs: React.FC<TabProp> = ({tabs = [], onSelect}) => {
   return (
-    <div className={`${tabsContainerClassName}__tab`}>
+    <TabsStyle className={`${tabsContainerClassName}__tab`}>
       <ul className={`${tabsContainerClassName}__list`}>
         {tabs.length &&
           tabs.map(tab => (
@@ -27,6 +27,47 @@ export const Tabs: React.FC<TabProp> = ({tabs = [], onSelect}) => {
             </li>
           ))}
       </ul>
-    </div>
+    </TabsStyle>
   );
 };
+
+const TabsStyle = styled.div`
+  margin-left: 1em;
+
+  .${tabsContainerClassName}__list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+
+    .${tabsContainerClassName}__item {
+      padding: 0.5em 1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: #333;
+      cursor: pointer;
+      transition: 0.4s;
+
+      &--active {
+        background: ${props => props.theme.colors.main_color};
+        color: #f5f5f5;
+
+        &:hover {
+          background: ${props => props.theme.colors.main_color};
+        }
+      }
+
+      &:hover {
+        background: ${props => props.theme.colors.color_lighten};
+      }
+
+      &:active {
+        background: ${props => props.theme.colors.color_darken};
+      }
+
+      & + .${tabsContainerClassName}__item {
+        margin-left: 1em;
+      }
+    }
+  }
+`;

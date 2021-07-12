@@ -1,8 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
 import {Input, Tabs, TabsContainer, Button} from '@/components';
 import {Tab} from '@/types';
+import header_img from '@/static/img/netflix-header.jpg';
 import {headerClassName} from './header-classname';
-import './header.style.scss';
 
 interface HeaderProp {
   input: string;
@@ -19,7 +20,7 @@ export const Header: React.FC<HeaderProp> = ({
   onChangeInput,
   onSearchMovies,
 }) => (
-  <div className={headerClassName}>
+  <HeaderStyle className={headerClassName}>
     <div className={`${headerClassName}__nav`}>
       <h3 className={`${headerClassName}__title`}>Netflixroulette</h3>
     </div>
@@ -42,5 +43,60 @@ export const Header: React.FC<HeaderProp> = ({
         <Button type="submit">Search</Button>
       </div>
     </form>
-  </div>
+  </HeaderStyle>
 );
+
+export const HeaderStyle = styled.div`
+  position: relative;
+  width: 100%;
+  background: url(${header_img});
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 2em 10rem;
+
+  .${headerClassName}__nav {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .${headerClassName}__title {
+      margin: 0;
+      color: ${props => props.theme.colors.main_color};
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .${headerClassName}__body {
+    position: relative;
+    margin-top: 3.5em;
+
+    .${headerClassName}__input {
+      h3 {
+        text-transform: uppercase;
+        color: #fff;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .${headerClassName}__footer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 1.5em;
+  }
+`;
