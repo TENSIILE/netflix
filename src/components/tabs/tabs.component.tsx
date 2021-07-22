@@ -1,8 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import {Tab} from '@/types';
-import {tabsContainerClassName} from './tabs-container-classname';
-import './tabs.style.scss';
+import {Container, List, ListItem} from '@/components/tabs/styled/tabs.styled';
 
 interface TabProp {
   tabs: Tab[];
@@ -11,22 +10,20 @@ interface TabProp {
 
 export const Tabs: React.FC<TabProp> = ({tabs = [], onSelect}) => {
   return (
-    <div className={`${tabsContainerClassName}__tab`}>
-      <ul className={`${tabsContainerClassName}__list`}>
+    <Container>
+      <List>
         {tabs.length &&
           tabs.map(tab => (
-            <li
-              className={classnames(`${tabsContainerClassName}__item`, {
-                [`${tabsContainerClassName}__item--active`]: tab.isSelect,
-              })}
+            <ListItem
+              className={classnames({active: tab.isSelect})}
               key={tab.id}
               data-name={tab.title}
               onClick={onSelect}
             >
               {tab.title}
-            </li>
+            </ListItem>
           ))}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };

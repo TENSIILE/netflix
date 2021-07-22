@@ -13,7 +13,6 @@ import {
   toggleTabsAction,
   sortMoviesAction,
 } from '@/redux/actions';
-import './index.style.scss';
 
 interface SelectedState {
   input: string;
@@ -74,7 +73,7 @@ export const IndexPage: React.FC = (): JSX.Element => {
   }, [tabs.sortTabs]);
 
   return (
-    <div className="index_page">
+    <div className="index_page content">
       <Header
         input={input}
         tabs={tabs.tabs}

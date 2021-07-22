@@ -1,8 +1,15 @@
 import React from 'react';
 import {Input, Tabs, TabsContainer, Button} from '@/components';
 import {Tab} from '@/types';
-import {headerClassName} from './header-classname';
-import './header.style.scss';
+import {
+  Container,
+  Title,
+  Nav,
+  Body,
+  InputField,
+  Footer,
+} from '@/components/header/styled/header.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface HeaderProp {
   input: string;
@@ -19,28 +26,27 @@ export const Header: React.FC<HeaderProp> = ({
   onChangeInput,
   onSearchMovies,
 }) => (
-  <div className={headerClassName}>
-    <div className={`${headerClassName}__nav`}>
-      <h3 className={`${headerClassName}__title`}>Netflixroulette</h3>
-    </div>
+  <Container>
+    <Nav>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Title>Netflixroulette</Title>
+      </Flex>
+    </Nav>
     <form onSubmit={onSearchMovies}>
-      <div className={`${headerClassName}__body`}>
-        <div className={`${headerClassName}__input`}>
+      <Body>
+        <InputField>
           <h3>Find your movie</h3>
-          <Input
-            className="input_field"
-            placeholder="Enter movie title or genre"
-            value={input}
-            onChange={onChangeInput}
-          />
-        </div>
-      </div>
-      <div className={`${headerClassName}__footer`}>
-        <TabsContainer>
-          <Tabs tabs={tabs} onSelect={onToggleTabs} />
-        </TabsContainer>
-        <Button type="submit">Search</Button>
-      </div>
+          <Input placeholder="Enter movie title or genre" value={input} onChange={onChangeInput} />
+        </InputField>
+      </Body>
+      <Footer>
+        <Flex alignItems="center" flexWrap="wrap" justifyContent="space-between">
+          <TabsContainer>
+            <Tabs tabs={tabs} onSelect={onToggleTabs} />
+          </TabsContainer>
+          <Button type="submit">Search</Button>
+        </Flex>
+      </Footer>
     </form>
-  </div>
+  </Container>
 );

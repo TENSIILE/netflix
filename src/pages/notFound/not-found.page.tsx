@@ -2,27 +2,37 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {ReactSVG} from 'react-svg';
 import {Button} from '@/components';
+import {
+  Container,
+  Content,
+  Header,
+  TextBlock,
+  ImageBlock,
+  Icon,
+} from '@/pages/notFound/not-found.styled';
+import {Flex} from '@/styled/common.styled';
 import header_img from '@/static/img/netflix-header.jpg';
 import notFoundSvg from '@/static/icons/404.svg';
-import './not-found.style.scss';
-
-const notFoundPageClassName = 'not_found_page';
 
 export const NotFoundPage: React.FC = () => (
-  <div className={notFoundPageClassName}>
-    <div className={`${notFoundPageClassName}__header`}>
-      <div className={`${notFoundPageClassName}__img`}>
+  <Container>
+    <Header>
+      <ImageBlock>
         <img src={header_img} alt="" />
-      </div>
-      <div className={`${notFoundPageClassName}__text`}>
+      </ImageBlock>
+      <TextBlock>
         <h1>Простите, но такого адреса не существует!</h1>
-      </div>
-    </div>
-    <div className={`${notFoundPageClassName}__content`}>
-      <ReactSVG src={notFoundSvg} className={`${notFoundPageClassName}__icon`} />
-      <Link to="/">
-        <Button>Вернуться назад</Button>
-      </Link>
-    </div>
-  </div>
+      </TextBlock>
+    </Header>
+    <Content>
+      <Flex justifyContent="center" alignItems="center" flexDirection="column">
+        <Icon>
+          <ReactSVG src={notFoundSvg} />
+        </Icon>
+        <Link to="/">
+          <Button>Вернуться назад</Button>
+        </Link>
+      </Flex>
+    </Content>
+  </Container>
 );

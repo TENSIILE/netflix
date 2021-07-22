@@ -1,7 +1,19 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from '@/components';
-import {headerClassName} from './header-classname';
+import {Container, Title, Nav} from '@/components/header/styled/header.styled';
+import {
+  InfoMovie,
+  TextMovieHead,
+  TextMovie,
+  Poster,
+  DurationReleaseMovie,
+  DescriptionMovie,
+  RatingMovie,
+  TitleMovie,
+  ReleaseMovie,
+} from '@/components/header/styled/header-movie.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface HeaderMovieProp {
   posterPath?: string;
@@ -22,35 +34,37 @@ export const HeaderMovie: React.FC<HeaderMovieProp> = ({
   overview,
   runtime,
 }) => (
-  <div className={headerClassName}>
-    <div className={`${headerClassName}__nav`}>
-      <h3 className={`${headerClassName}__title`}>Netflixroulette</h3>
-      <Link to="/">
-        <Button className="btn__link">Search</Button>
-      </Link>
-    </div>
-    <div className={`${headerClassName}__body ${headerClassName}__info_movie`}>
-      <div className={`${headerClassName}__poster`}>
-        {posterPath && <img src={posterPath} alt="" />}
-      </div>
-      <div className={`${headerClassName}__text_movie`}>
-        <div className={`${headerClassName}__text_movie_head`}>
-          <h3 className={`${headerClassName}__title_movie`}>{title}</h3>
-          {!!voteAverage && (
-            <span className={`${headerClassName}__rating_movie`}>{voteAverage}</span>
-          )}
-        </div>
-        <small>{tagline}</small>
-        <div className={`${headerClassName}__duration_release_movie`}>
-          <span className={`${headerClassName}__release_movie`}>
-            {releaseDate && new Date(releaseDate).getFullYear().toString()}
-          </span>
-          {runtime && <span className={`${headerClassName}__duration_movie`}>{runtime} min</span>}
-        </div>
-        <div className={`${headerClassName}__description_movie`}>
-          <p>{overview}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <Container>
+    <Nav>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Title>Netflixroulette</Title>
+        <Link to="/">
+          <Button isLink>Search</Button>
+        </Link>
+      </Flex>
+    </Nav>
+    <InfoMovie>
+      <Flex>
+        <Poster>{posterPath && <img src={posterPath} alt="" />}</Poster>
+        <TextMovie>
+          <TextMovieHead>
+            <Flex alignItems="center">
+              <TitleMovie>{title}</TitleMovie>
+              {!!voteAverage && <RatingMovie>{voteAverage}</RatingMovie>}
+            </Flex>
+          </TextMovieHead>
+          <small>{tagline}</small>
+          <DurationReleaseMovie>
+            <ReleaseMovie>
+              {releaseDate && new Date(releaseDate).getFullYear().toString()}
+            </ReleaseMovie>
+            {runtime && <span>{runtime} min</span>}
+          </DurationReleaseMovie>
+          <DescriptionMovie>
+            <p>{overview}</p>
+          </DescriptionMovie>
+        </TextMovie>
+      </Flex>
+    </InfoMovie>
+  </Container>
 );

@@ -1,10 +1,8 @@
 import React from 'react';
-import './footer.style.scss';
-
-const footerClassName = 'footer';
+import {Container, Title} from '@/components/footer/footer.styled';
 
 export const Footer: React.FC = () => (
-  <div className={footerClassName}>
-    <p className={`${footerClassName}__title`}>Netflixroulette</p>
-  </div>
+  <Container>
+    <Title>Netflixroulette</Title>
+  </Container>
 );

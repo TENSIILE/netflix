@@ -1,8 +1,8 @@
 import React from 'react';
 import {Tabs, TabsContainer} from '@/components';
 import {TabsType, Tab} from '@/types';
-import {searchOptionsClassName} from './search-options-classname';
-import './search-options.style.scss';
+import {Container} from '@/components/searchOptions/styled/search-options-movie.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface SearchOptionsProp {
   countMovies: number;
@@ -11,16 +11,12 @@ interface SearchOptionsProp {
 }
 
 export const SearchOptions: React.FC<SearchOptionsProp> = ({countMovies, sortTabs, onSelect}) => (
-  <div className={searchOptionsClassName}>
-    <div className={`${searchOptionsClassName}__left`}>
-      <p className={`${searchOptionsClassName}__count_of_movies_found`}>
-        {countMovies} movies found
-      </p>
-    </div>
-    <div className={`${searchOptionsClassName}__right`}>
+  <Container>
+    <p>{countMovies} movies found</p>
+    <Flex alignItems="center">
       <TabsContainer title="Sort by">
         <Tabs tabs={sortTabs} onSelect={e => onSelect(e, 'sortTabs')} />
       </TabsContainer>
-    </div>
-  </div>
+    </Flex>
+  </Container>
 );

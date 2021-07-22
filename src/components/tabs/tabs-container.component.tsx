@@ -1,13 +1,16 @@
 import React from 'react';
-import {tabsContainerClassName} from './tabs-container-classname';
+import {Container, Title} from '@/components/tabs/styled/tabs-container.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface TabsContainerProp {
   title?: string;
 }
 
 export const TabsContainer: React.FC<TabsContainerProp> = ({title = 'Search by', children}) => (
-  <div className={tabsContainerClassName}>
-    <p className={`${tabsContainerClassName}__title`}>{title}</p>
-    {children}
-  </div>
+  <Container>
+    <Flex alignItems="center">
+      <Title>{title}</Title>
+      {children}
+    </Flex>
+  </Container>
 );
