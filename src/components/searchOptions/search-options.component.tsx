@@ -2,7 +2,7 @@ import React from 'react';
 import {Tabs, TabsContainer} from '@/components';
 import {TabsType, Tab} from '@/types';
 import {Container} from '@/components/searchOptions/styled/search-options-movie.styled';
-import {Flex} from '@/global.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface SearchOptionsProp {
   countMovies: number;

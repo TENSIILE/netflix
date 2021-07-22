@@ -1,19 +1,9 @@
-import React, {ThemeProvider, ComponentMeta, ComponentStory, GlobalStyle, theme} from '@/stories';
 import {Tabs as TabsComponent} from '@/components/tabs/tabs.component';
+import {createStory, createTemplate} from '@/stories/story.template';
 
-export default {
-  title: 'Netflix/Components/Tabs',
-  component: TabsComponent,
-} as ComponentMeta<typeof TabsComponent>;
+export default createStory('Netflix/Components/Tabs', TabsComponent);
 
-const Template: ComponentStory<typeof TabsComponent> = args => (
-  <ThemeProvider theme={theme}>
-    <GlobalStyle />
-    <TabsComponent {...args} />
-  </ThemeProvider>
-);
-
-export const Tabs = Template.bind({});
+export const Tabs = createTemplate(TabsComponent).bind({});
 Tabs.args = {
   tabs: [
     {

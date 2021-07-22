@@ -1,28 +1,19 @@
-import React, {
-  BrowserRouter,
-  ThemeProvider,
-  ComponentMeta,
-  ComponentStory,
-  GlobalStyle,
-  theme,
-} from '@/stories';
+import React from 'react';
+import {MemoryRouter} from 'react-router-dom';
 import {Card as CardComponent} from '@/components/card/card.component';
+import {createStory, createTemplate} from '@/stories/story.template';
 
-export default {
-  title: 'Netflix/Components/Card',
-  component: CardComponent,
-} as ComponentMeta<typeof CardComponent>;
+export default createStory('Netflix/Components/Card', CardComponent, {
+  decorators: [
+    Story => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
+});
 
-const Template: ComponentStory<typeof CardComponent> = args => (
-  <BrowserRouter>
-    <GlobalStyle />
-    <ThemeProvider theme={theme}>
-      <CardComponent {...args} />
-    </ThemeProvider>
-  </BrowserRouter>
-);
-
-export const Card = Template.bind({});
+export const Card = createTemplate(CardComponent).bind({});
 Card.args = {
   id: 1,
   title: 'Black Widow',

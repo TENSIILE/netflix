@@ -17,7 +17,7 @@ export const Container = styled.div`
     font-weight: 600;
 
     &.active {
-      color: ${props => props.theme.colors.main_color} !important;
+      color: ${props => props.theme.colors.color_main} !important;
     }
   }
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface CardGridProps {
-  notFound?: boolean;
+  isNotFound?: boolean;
 }
 
 export const Container = styled.div`
@@ -26,7 +26,7 @@ export const CardGrid = styled.div<CardGridProps>`
   width: 75%;
 
   ${props =>
-    props.notFound &&
+    props.isNotFound &&
     `
     position: absolute;
     left: 50%;

@@ -6,7 +6,8 @@ import {ThemeProvider} from 'styled-components';
 import {rootReducer} from '@/redux/reducers';
 import {Routes} from '@/components';
 import {createEnhancers} from '@/utils/redux.utils';
-import theme, {GlobalStyle} from '@/global.styled';
+import {GlobalStyle} from '@/styled/global.styled';
+import theme from '@/styled/theme.styled';
 
 const store = createStore(rootReducer, createEnhancers());
 

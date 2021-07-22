@@ -8,7 +8,7 @@ export const Container = styled.div`
 export const Title = styled.p`
   margin: 0;
   padding: 0;
-  color: ${props => props.theme.colors.main_color};
+  color: ${props => props.theme.colors.color_main};
   text-transform: capitalize;
   font-weight: 600;
 `;

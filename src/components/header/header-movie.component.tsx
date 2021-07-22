@@ -13,7 +13,7 @@ import {
   TitleMovie,
   ReleaseMovie,
 } from '@/components/header/styled/header-movie.styled';
-import {Flex} from '@/global.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface HeaderMovieProp {
   posterPath?: string;
@@ -39,7 +39,7 @@ export const HeaderMovie: React.FC<HeaderMovieProp> = ({
       <Flex justifyContent="space-between" alignItems="center">
         <Title>Netflixroulette</Title>
         <Link to="/">
-          <Button link>Search</Button>
+          <Button isLink>Search</Button>
         </Link>
       </Flex>
     </Nav>

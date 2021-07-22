@@ -15,6 +15,6 @@ export const Input = styled.input.attrs(() => ({
   transition: 0.2s;
 
   &:focus {
-    border-bottom-color: ${props => props.theme.colors.main_color};
+    border-bottom-color: ${props => props.theme.colors.color_main};
   }
 `;

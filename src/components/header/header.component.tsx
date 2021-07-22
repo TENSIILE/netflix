@@ -9,7 +9,7 @@ import {
   InputField,
   Footer,
 } from '@/components/header/styled/header.styled';
-import {Flex} from '@/global.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface HeaderProp {
   input: string;

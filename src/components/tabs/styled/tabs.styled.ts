@@ -17,14 +17,15 @@ export const ListItem = styled.li`
   color: #fff;
   background: #333;
   cursor: pointer;
+  font-family: ${props => props.theme.font_family};
   transition: 0.4s;
 
   &.active {
-    background: ${props => props.theme.colors.main_color};
+    background: ${props => props.theme.colors.color_main};
     color: #f5f5f5;
 
     &:hover {
-      background: ${props => props.theme.colors.main_color};
+      background: ${props => props.theme.colors.color_main};
     }
   }
 

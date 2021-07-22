@@ -5,6 +5,10 @@ export const Container = styled.div`
     text-decoration: none;
     color: unset;
   }
+
+  * {
+    font-family: ${props => props.theme.font_family};
+  }
 `;
 
 export const Content = styled.div`

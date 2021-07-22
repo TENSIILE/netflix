@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Title} from '@/components/tabs/styled/tabs-container.styled';
-import {Flex} from '@/global.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface TabsContainerProp {
   title?: string;

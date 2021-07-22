@@ -9,7 +9,7 @@ export const Header = styled.div`
   position: relative;
 `;
 
-export const Image = styled.div`
+export const ImageBlock = styled.div`
   width: 100%;
   height: 300px;
 
@@ -37,7 +37,7 @@ export const TextBlock = styled.div`
   left: 50%;
   text-align: center;
   color: #fff;
-  text-shadow: 0 0 10px ${props => props.theme.colors.main_color};
+  text-shadow: 0 0 10px ${props => props.theme.colors.color_main};
   transform: translate(-50%, -50%);
 `;
 
@@ -54,6 +54,6 @@ export const Icon = styled.div`
   svg {
     width: 350px;
     height: 350px;
-    fill: ${props => props.theme.colors.main_color};
+    fill: ${props => props.theme.colors.color_main};
   }
 `;

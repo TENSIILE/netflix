@@ -29,7 +29,7 @@ export const Nav = styled.div`
 export const Title = styled.p`
   margin: 0;
   font-weight: bold;
-  color: ${props => props.theme.colors.main_color};
+  color: ${props => props.theme.colors.color_main};
 `;
 
 export const Body = styled.div`

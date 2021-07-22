@@ -1,24 +1,15 @@
-import React, {ThemeProvider, ComponentMeta, ComponentStory, theme} from '@/stories';
 import {Button as ButtonComponent} from '@/components/button/button.component';
+import {createStory, createTemplate} from '@/stories/story.template';
 
-export default {
-  title: 'Netflix/Components/Buttons',
-  component: ButtonComponent,
-} as ComponentMeta<typeof ButtonComponent>;
+export default createStory('Netflix/Components/Buttons', ButtonComponent);
 
-const Template: ComponentStory<typeof ButtonComponent> = args => (
-  <ThemeProvider theme={theme}>
-    <ButtonComponent {...args} />
-  </ThemeProvider>
-);
-
-export const Button = Template.bind({});
+export const Button = createTemplate(ButtonComponent).bind({});
 Button.args = {
   children: 'Кнопка',
 };
 
-export const InvertButton = Template.bind({});
+export const InvertButton = createTemplate(ButtonComponent).bind({});
 InvertButton.args = {
   children: 'Кнопка',
-  className: 'btn__link',
+  isLink: true,
 };

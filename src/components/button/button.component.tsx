@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface ButtonProps {
-  link?: boolean;
+  isLink?: boolean;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -11,15 +11,15 @@ export const Button = styled.button<ButtonProps>`
   border: none;
   color: #fff;
   text-transform: uppercase;
-  background: ${props => props.theme.colors.main_color};
+  background: ${props => props.theme.colors.color_main};
   cursor: pointer;
   transition: 0.4s;
 
   ${props =>
-    props.link &&
+    props.isLink &&
     `
     background: #fff;
-    color: ${props.theme.colors.main_color};
+    color: ${props.theme.colors.color_main};
 
     &:hover {
       color: #fff;

@@ -8,7 +8,7 @@ import {
   YearRelease,
   Genre,
 } from '@/components/card/styled/card.styled';
-import {Flex} from '@/global.styled';
+import {Flex} from '@/styled/common.styled';
 
 interface CardProp {
   id: number;

@@ -35,7 +35,7 @@ export const TextMovieHead = styled.div`
 `;
 
 export const TitleMovie = styled.div`
-  color: ${props => props.theme.colors.main_color};
+  color: ${props => props.theme.colors.color_main};
   font-size: 2em;
   margin: 0;
 `;
