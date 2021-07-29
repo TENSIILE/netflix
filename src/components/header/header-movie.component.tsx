@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {Button} from '@/components';
 import {Container, Title, Nav} from '@/components/header/styled/header.styled';
 import {
@@ -38,9 +37,7 @@ export const HeaderMovie: React.FC<HeaderMovieProp> = ({
     <Nav>
       <Flex justifyContent="space-between" alignItems="center">
         <Title>Netflixroulette</Title>
-        <Link to="/">
-          <Button isLink>Search</Button>
-        </Link>
+        <Button isLink>Search</Button>
       </Flex>
     </Nav>
     <InfoMovie>

@@ -20,7 +20,7 @@ interface SelectedState {
   tabs: TabsStore;
 }
 
-export const IndexPage: React.FC = (): JSX.Element => {
+const IndexPage: React.FC = (): JSX.Element => {
   const {input, movies, tabs} = useSelector<Store, SelectedState>(state => ({
     input: state.inputs.input,
     movies: state.movies,
@@ -103,3 +103,5 @@ export const IndexPage: React.FC = (): JSX.Element => {
     </div>
   );
 };
+
+export default IndexPage;

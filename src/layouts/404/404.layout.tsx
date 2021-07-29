@@ -1,24 +1,15 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {ReactSVG} from 'react-svg';
 import {Button} from '@/components';
-import {
-  Container,
-  Content,
-  Header,
-  TextBlock,
-  ImageBlock,
-  Icon,
-} from '@/pages/notFound/not-found.styled';
+import {Container, Content, Header, TextBlock, ImageBlock, Icon} from '@/layouts/404/404.styled';
+import {ImageContainer} from '@/components/header/styled/header.styled';
 import {Flex} from '@/styled/common.styled';
-import header_img from '@/static/img/netflix-header.jpg';
-import notFoundSvg from '@/static/icons/404.svg';
 
-export const NotFoundPage: React.FC = () => (
+const NotFoundPage: React.FC = () => (
   <Container>
     <Header>
       <ImageBlock>
-        <img src={header_img} alt="" />
+        <ImageContainer src="/img/netflix-header.jpg" alt="" />
       </ImageBlock>
       <TextBlock>
         <h1>Простите, но такого адреса не существует!</h1>
@@ -27,12 +18,12 @@ export const NotFoundPage: React.FC = () => (
     <Content>
       <Flex justifyContent="center" alignItems="center" flexDirection="column">
         <Icon>
-          <ReactSVG src={notFoundSvg} />
+          <ReactSVG src="/icons/404.svg" />
         </Icon>
-        <Link to="/">
-          <Button>Вернуться назад</Button>
-        </Link>
+        <Button>Вернуться назад</Button>
       </Flex>
     </Content>
   </Container>
 );
+
+export default NotFoundPage;

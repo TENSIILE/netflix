@@ -28,8 +28,11 @@ export const mapMovieDataArrayToMovie = (movieDataArray: MovieData[]): Movie[] =
 export const setURL = (url: string): void => history.pushState(null, '', url);
 
 export const getURLParams = (param: QueryType): string | null => {
-  const url = new URLSearchParams(location.search);
-  return url.get(param);
+  if (global.window?.location?.search) {
+    const url = new URLSearchParams(location.search);
+    return url.get(param);
+  }
+  return null;
 };
 
 export const sortMoviesByVoteAverageOrReleaseDate = (state: Movie[], sortType: string): Movie[] => {

@@ -3,6 +3,7 @@ import {Input, Tabs, TabsContainer, Button} from '@/components';
 import {Tab} from '@/types';
 import {
   Container,
+  ImageContainer,
   Title,
   Nav,
   Body,
@@ -27,6 +28,7 @@ export const Header: React.FC<HeaderProp> = ({
   onSearchMovies,
 }) => (
   <Container>
+    <ImageContainer src="/img/netflix-header.jpg" alt="" />
     <Nav>
       <Flex justifyContent="space-between" alignItems="center">
         <Title>Netflixroulette</Title>

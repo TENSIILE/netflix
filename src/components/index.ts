@@ -10,4 +10,3 @@ export {SearchOptionsMovie} from './searchOptions/search-options-movie.component
 export {Card} from './card/card.component';
 export {CardContainer} from './card/card-container.component';
 export {Footer} from './footer/footer.component';
-export {Routes} from './routes/routes.component';
