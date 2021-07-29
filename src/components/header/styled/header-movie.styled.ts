@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const InfoMovie = styled.div`
   font-size: 1.5em;
   color: #fff;
+  z-index: 2;
 `;
 
 export const Poster = styled.div`
@@ -10,6 +11,7 @@ export const Poster = styled.div`
   width: 500px;
   max-width: 500px;
   height: 100%;
+  z-index: 2;
 
   img {
     width: 100%;
@@ -22,6 +24,7 @@ export const TextMovie = styled.div`
   position: relative;
   margin-left: 3em;
   width: 1000px;
+  z-index: 2;
 `;
 
 export const TextMovieHead = styled.div`

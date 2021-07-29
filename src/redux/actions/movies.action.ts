@@ -1,6 +1,6 @@
 import {AnyAction, Dispatch} from 'redux';
 import {
-  SEARCH_MOVIES,
+  SET_DATA_MOVIES,
   UPLOAD_CACHE_MOVIES,
   INIT_FETCH_MOVIES,
   LOAD_SIMILAR_MOVIES_BY_GENRE,
@@ -11,7 +11,7 @@ import {mapMovieDataArrayToMovie, mapMovieDataToMovie, getURLParams} from '@/uti
 import {request} from '@/utils/http.utils';
 
 const searchMoviesActionCreator = (movies: Movie | Movie[]): AnyAction => ({
-  type: SEARCH_MOVIES,
+  type: SET_DATA_MOVIES,
   payload: movies,
 });
 
@@ -31,7 +31,7 @@ const loadSimilarMoviesByGenreAction = (movies: Movie[]): AnyAction => ({
 });
 
 export const sortMoviesAction = (movies: Movie | Movie[]): AnyAction => ({
-  type: SEARCH_MOVIES,
+  type: SET_DATA_MOVIES,
   payload: movies,
 });
 
@@ -60,10 +60,8 @@ export const initFetchMoviesAction = (activeTab: string) => {
   };
 };
 
-export const uploadSelectedMovieAction = () => {
+export const uploadSelectedMovieAction = (id: string | string[] | undefined) => {
   return async (dispatch: Dispatch): Promise<void> => {
-    const id = getURLParams('id');
-
     const res = await request<MovieData>(`/movies/${id}`);
     dispatch(loadCurrentMovieAction(mapMovieDataToMovie(res)));
 

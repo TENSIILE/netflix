@@ -25,8 +25,6 @@ export const mapMovieDataToMovie = (movieData: MovieData): Movie => {
 export const mapMovieDataArrayToMovie = (movieDataArray: MovieData[]): Movie[] =>
   movieDataArray.map(mapMovieDataToMovie);
 
-export const setURL = (url: string): void => history.pushState(null, '', url);
-
 export const getURLParams = (param: QueryType): string | null => {
   if (global.window?.location?.search) {
     const url = new URLSearchParams(location.search);

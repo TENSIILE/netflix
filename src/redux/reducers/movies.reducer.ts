@@ -1,7 +1,7 @@
 import {AnyAction} from 'redux';
 import {Movie} from '@/types/movie.type';
 import {
-  SEARCH_MOVIES,
+  SET_DATA_MOVIES,
   UPLOAD_CACHE_MOVIES,
   INIT_FETCH_MOVIES,
   LOAD_CURRENT_MOVIE,
@@ -33,7 +33,7 @@ export const moviesReducer = (
         movies: action.payload,
         cacheMovies: action.payload,
       };
-    case SEARCH_MOVIES:
+    case SET_DATA_MOVIES:
       return {
         ...state,
         movies: action.payload,

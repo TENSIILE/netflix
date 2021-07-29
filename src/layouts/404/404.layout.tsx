@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import {ReactSVG} from 'react-svg';
 import {Button} from '@/components';
 import {Container, Content, Header, TextBlock, ImageBlock, Icon} from '@/layouts/404/404.styled';
@@ -20,7 +21,9 @@ const NotFoundPage: React.FC = () => (
         <Icon>
           <ReactSVG src="/icons/404.svg" />
         </Icon>
-        <Button>Вернуться назад</Button>
+        <Link href="/" passHref>
+          <Button>Вернуться назад</Button>
+        </Link>
       </Flex>
     </Content>
   </Container>

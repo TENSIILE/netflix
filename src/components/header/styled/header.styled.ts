@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface NavProps {
+  isMovie?: boolean;
+}
+
 export const Container = styled.div`
   position: relative;
   width: 100%;
@@ -27,10 +31,11 @@ export const ImageContainer = styled.img`
   object-fit: cover;
 `;
 
-export const Nav = styled.div`
+export const Nav = styled.div<NavProps>`
   position: relative;
   width: 100%;
   z-index: 2;
+  margin-bottom: ${props => props.isMovie && '2em'};
 `;
 
 export const Title = styled.p`

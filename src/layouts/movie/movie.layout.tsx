@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {useRouter} from 'next/router';
 import {useDispatch, useSelector} from 'react-redux';
 import {HeaderMovie, Card, CardContainer, SearchOptionsMovie, Footer} from '@/components';
 import {uploadSelectedMovieAction} from '@/redux/actions';
@@ -10,16 +11,17 @@ interface SelectedState {
   similarMoviesByGenre: Movie[];
 }
 
-export const MoviePage: React.FC = (): JSX.Element => {
+const MoviePage: React.FC = (): JSX.Element => {
   const {currentMovie, similarMoviesByGenre} = useSelector<Store, SelectedState>(state => ({
     currentMovie: state.movies.currentMovie,
     similarMoviesByGenre: state.movies.similarMoviesByGenre,
   }));
   const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect((): void => {
-    dispatch(uploadSelectedMovieAction());
-  }, []);
+    dispatch(uploadSelectedMovieAction(router.query.id));
+  }, [router.query.id]);
 
   return (
     <div className="certain_movie content">
@@ -42,3 +44,5 @@ export const MoviePage: React.FC = (): JSX.Element => {
     </div>
   );
 };
+
+export default MoviePage;
