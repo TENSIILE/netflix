@@ -30,10 +30,14 @@ const loadSimilarMoviesByGenreAction = (movies: Movie[]): AnyAction => ({
   payload: movies,
 });
 
-export const sortMoviesAction = (movies: Movie | Movie[]): AnyAction => ({
-  type: SET_DATA_MOVIES,
-  payload: movies,
-});
+export const sortMoviesAction = (movies: Movie | Movie[]): AnyAction | void => {
+  if (Array.isArray(movies) && movies.length) {
+    return {
+      type: SET_DATA_MOVIES,
+      payload: movies,
+    };
+  }
+};
 
 export const uploadCacheMoviesAction = (): AnyAction => ({
   type: UPLOAD_CACHE_MOVIES,

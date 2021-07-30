@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import {Tab} from '@/types';
 import {Container, List, ListItem} from '@/components/tabs/styled/tabs.styled';
 
@@ -14,12 +13,7 @@ export const Tabs: React.FC<TabProp> = ({tabs = [], onSelect}) => {
       <List>
         {tabs.length &&
           tabs.map(tab => (
-            <ListItem
-              className={classnames({active: tab.isSelect})}
-              key={tab.id}
-              data-name={tab.title}
-              onClick={onSelect}
-            >
+            <ListItem isActive={tab.isSelect} key={tab.id} data-name={tab.title} onClick={onSelect}>
               {tab.title}
             </ListItem>
           ))}

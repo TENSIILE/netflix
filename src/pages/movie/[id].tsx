@@ -1,1 +1,1 @@
-export {default} from '@/layouts/movie/movie.layout';
+export {default, getServerSideProps} from '@/layouts/movie/movie.layout';
