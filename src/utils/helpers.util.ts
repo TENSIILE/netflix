@@ -26,11 +26,7 @@ export const mapMovieDataArrayToMovie = (movieDataArray: MovieData[]): Movie[] =
   movieDataArray.map(mapMovieDataToMovie);
 
 export const getURLParams = (param: QueryType): string | null => {
-  if (global.window?.location?.search) {
-    const url = new URLSearchParams(location.search);
-    return url.get(param);
-  }
-  return null;
+  return new URLSearchParams(globalThis.location?.search).get(param);
 };
 
 export const sortMoviesByVoteAverageOrReleaseDate = (state: Movie[], sortType: string): Movie[] => {

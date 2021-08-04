@@ -1,13 +1,7 @@
 import {AnyAction, Dispatch} from 'redux';
-import {
-  SET_DATA_MOVIES,
-  UPLOAD_CACHE_MOVIES,
-  INIT_FETCH_MOVIES,
-  LOAD_SIMILAR_MOVIES_BY_GENRE,
-  LOAD_CURRENT_MOVIE,
-} from '@/redux/types/movies.type';
-import {Movie, MovieData} from '@/types/movie.type';
-import {mapMovieDataArrayToMovie, mapMovieDataToMovie, getURLParams} from '@/utils/helpers.util';
+import {SET_DATA_MOVIES, UPLOAD_CACHE_MOVIES, INIT_FETCH_MOVIES} from '@/redux/types/movies.type';
+import {Movie} from '@/types/movie.type';
+import {mapMovieDataArrayToMovie, getURLParams} from '@/utils/helpers.util';
 import {request} from '@/utils/http.utils';
 
 const searchMoviesActionCreator = (movies: Movie | Movie[]): AnyAction => ({
@@ -20,17 +14,7 @@ const initFetchMoviesActionCreator = (movies: Movie | Movie[]): AnyAction => ({
   payload: movies,
 });
 
-const loadCurrentMovieAction = (movie: Movie): AnyAction => ({
-  type: LOAD_CURRENT_MOVIE,
-  payload: movie,
-});
-
-const loadSimilarMoviesByGenreAction = (movies: Movie[]): AnyAction => ({
-  type: LOAD_SIMILAR_MOVIES_BY_GENRE,
-  payload: movies,
-});
-
-export const sortMoviesAction = (movies: Movie | Movie[]): AnyAction | void => {
+export const sortMoviesAction = (movies: Movie[]): AnyAction | void => {
   if (Array.isArray(movies) && movies.length) {
     return {
       type: SET_DATA_MOVIES,
@@ -61,17 +45,5 @@ export const initFetchMoviesAction = (activeTab: string) => {
 
     const {data} = await request('/movies?sortBy=vote_average&sortOrder=desc');
     dispatch(initFetchMoviesActionCreator(mapMovieDataArrayToMovie(data)));
-  };
-};
-
-export const uploadSelectedMovieAction = (id: string | string[] | undefined) => {
-  return async (dispatch: Dispatch): Promise<void> => {
-    const res = await request<MovieData>(`/movies/${id}`);
-    dispatch(loadCurrentMovieAction(mapMovieDataToMovie(res)));
-
-    const {data} = await request(`/movies?filter=${res.genres.join(',')}`);
-
-    const movies = data.filter((movie: Movie) => movie.id.toString() !== id?.toString());
-    dispatch(loadSimilarMoviesByGenreAction(mapMovieDataArrayToMovie(movies)));
   };
 };
