@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import header_img from '@/static/img/netflix-header.jpg';
+
+interface NavProps {
+  isMovie?: boolean;
+}
 
 export const Container = styled.div`
   position: relative;
   width: 100%;
-  background: url(${header_img});
-  background-repeat: no-repeat;
-  background-size: cover;
   padding: 2em 10rem;
 
   &::before {
@@ -18,23 +18,37 @@ export const Container = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
   }
 `;
 
-export const Nav = styled.div`
+export const ImageContainer = styled.img`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+export const Nav = styled.div<NavProps>`
   position: relative;
   width: 100%;
+  z-index: 2;
+  margin-bottom: ${props => props.isMovie && '2em'};
 `;
 
 export const Title = styled.p`
   margin: 0;
   font-weight: bold;
   color: ${props => props.theme.colors.color_main};
+  z-index: 2;
 `;
 
 export const Body = styled.div`
   position: relative;
   margin-top: 3.5em;
+  z-index: 2;
 `;
 
 export const InputField = styled.div`
@@ -42,10 +56,12 @@ export const InputField = styled.div`
     text-transform: uppercase;
     color: #fff;
     font-weight: normal;
+    z-index: 2;
   }
 `;
 
 export const Footer = styled.div`
   position: relative;
   margin-top: 1.5em;
+  z-index: 2;
 `;

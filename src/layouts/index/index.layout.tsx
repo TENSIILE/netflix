@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
+import {useRouter} from 'next/router';
 import {useDispatch, useSelector} from 'react-redux';
 import {AnyAction} from 'redux';
 import {Header, SearchOptions, Card, CardContainer, Footer} from '@/components';
 import {TabsStore, MoviesStore, Store} from '@/types/store.type';
 import {Tab, TabsType} from '@/types';
-import {ensure, sortMoviesByVoteAverageOrReleaseDate, setURL} from '@/utils/helpers.util';
+import {ensure, sortMoviesByVoteAverageOrReleaseDate} from '@/utils/helpers.util';
 import {
   changeInputAction,
   searchMoviesAction,
@@ -20,13 +21,14 @@ interface SelectedState {
   tabs: TabsStore;
 }
 
-export const IndexPage: React.FC = (): JSX.Element => {
+const IndexPage: React.FC = (): JSX.Element => {
   const {input, movies, tabs} = useSelector<Store, SelectedState>(state => ({
     input: state.inputs.input,
     movies: state.movies,
     tabs: state.tabs,
   }));
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch(changeInputAction(e));
@@ -40,16 +42,17 @@ export const IndexPage: React.FC = (): JSX.Element => {
     e.preventDefault();
 
     if (!!input.trim()) {
-      setURL(`/search?search=${input}`);
+      router.push(`/?search=${input}`);
       dispatch(searchMoviesAction(input, onFindActiveTab()));
       return;
     }
 
     if (movies.cacheMovies.length) {
+      router.replace('/');
       return dispatch(uploadCacheMoviesAction());
     }
 
-    setURL('/');
+    router.replace('/');
     dispatch(initFetchMoviesAction(onFindActiveTab()));
   };
 
@@ -103,3 +106,5 @@ export const IndexPage: React.FC = (): JSX.Element => {
     </div>
   );
 };
+
+export default IndexPage;

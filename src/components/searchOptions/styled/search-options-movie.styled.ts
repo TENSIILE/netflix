@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import {ListItem} from '@/components/tabs/styled/tabs.styled';
 import {Title} from '@/components/tabs/styled/tabs-container.styled';
 
 export const Container = styled.div`
@@ -10,16 +9,6 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   color: #333;
-
-  ${ListItem} {
-    background: unset !important;
-    color: #333 !important;
-    font-weight: 600;
-
-    &.active {
-      color: ${props => props.theme.colors.color_main} !important;
-    }
-  }
 
   ${Title} {
     color: #333;

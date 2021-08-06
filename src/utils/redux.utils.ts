@@ -7,5 +7,5 @@ export const createEnhancers = (): Func1<
   StoreEnhancerStoreCreator<{dispatch: {}}, {}>
 > =>
   process.env.NODE_ENV === 'development'
-    ? compose(applyMiddleware(loggerMiddleware, thunkMiddleware), composeWithDevTools())
+    ? composeWithDevTools(applyMiddleware(loggerMiddleware, thunkMiddleware))
     : compose(applyMiddleware(thunkMiddleware));

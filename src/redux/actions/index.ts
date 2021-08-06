@@ -4,6 +4,5 @@ export {
   initFetchMoviesAction,
   uploadCacheMoviesAction,
   sortMoviesAction,
-  uploadSelectedMovieAction,
 } from './movies.action';
 export {toggleTabsAction} from './tabs.action';

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import Link from 'next/link';
 import {
   Container,
   Image,
@@ -20,17 +20,19 @@ interface CardProp {
 
 export const Card: React.FC<CardProp> = ({id, title, posterPath, releaseDate, genres}) => (
   <Container>
-    <Link to={`/film?id=${id}`}>
-      <CardStyle>
-        <Image src={posterPath} alt="" />
-        <Content>
-          <Flex alignItems="center" justifyContent="space-between">
-            <p>{title}</p>
-            <YearRelease>{new Date(releaseDate).getFullYear().toString()}</YearRelease>
-          </Flex>
-          <Genre>{genres.join(' & ')}</Genre>
-        </Content>
-      </CardStyle>
-    </Link>{' '}
+    <Link href={`/movie/${id}`}>
+      <a>
+        <CardStyle>
+          <Image src={posterPath} alt="" />
+          <Content>
+            <Flex alignItems="center" justifyContent="space-between">
+              <p>{title}</p>
+              <YearRelease>{new Date(releaseDate).getFullYear().toString()}</YearRelease>
+            </Flex>
+            <Genre>{genres.join(' & ')}</Genre>
+          </Content>
+        </CardStyle>
+      </a>
+    </Link>
   </Container>
 );

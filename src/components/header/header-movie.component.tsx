@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import Link from 'next/link';
 import {Button} from '@/components';
-import {Container, Title, Nav} from '@/components/header/styled/header.styled';
+import {Container, Title, Nav, ImageContainer} from '@/components/header/styled/header.styled';
 import {
   InfoMovie,
   TextMovieHead,
@@ -35,11 +35,14 @@ export const HeaderMovie: React.FC<HeaderMovieProp> = ({
   runtime,
 }) => (
   <Container>
-    <Nav>
+    <ImageContainer src="/img/netflix-header.jpg" alt="" />
+    <Nav isMovie>
       <Flex justifyContent="space-between" alignItems="center">
         <Title>Netflixroulette</Title>
-        <Link to="/">
-          <Button isLink>Search</Button>
+        <Link href="/">
+          <a>
+            <Button isLink>Search</Button>
+          </a>
         </Link>
       </Flex>
     </Nav>
